@@ -12,7 +12,6 @@ export default class Cell {
     this.cellText = document.createElement('p');
     this.cellText.classList.add('field__cell-text');
     this.element.append(this.cellText);
-    this.cellText.textContent = `${this.coordinates.row}-${this.coordinates.column}`;
     this.setListeners();
     return this.element;
   };
@@ -20,6 +19,12 @@ export default class Cell {
   setBomb = () => {
     this.isBomb = true;
     this.element.classList.add('field__cell_state_bomb');
+  };
+
+  setValue = (value) => {
+    this.value = value;
+    this.cellText.textContent = this.value;
+    //  !== 0 ? this.value : '';
   };
 
   open = () => {

@@ -2,3 +2,11 @@
 	display: flex;
 
 }
+.game-options__restart-btn{
+	@include clickable;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: 1px solid $black
+
+}

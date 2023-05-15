@@ -1,7 +1,7 @@
 export default class Cell {
-  constructor(text, generateBombs) {
+  constructor(coordinates, generateBombs) {
     this.isBomb = false;
-    this.text = text;
+    this.coordinates = coordinates;
     this.generateBombs = generateBombs;
   }
 
@@ -12,7 +12,7 @@ export default class Cell {
     this.cellText = document.createElement('p');
     this.cellText.classList.add('field__cell-text');
     this.element.append(this.cellText);
-    this.cellText.textContent = this.text;
+    this.cellText.textContent = `${this.coordinates.row}-${this.coordinates.column}`;
     this.setListeners();
     return this.element;
   };
@@ -23,7 +23,7 @@ export default class Cell {
   };
 
   open = () => {
-    this.generateBombs();
+    this.generateBombs(this.coordinates);
     this.element.classList.remove('field__cell_state_flag');
     this.element.classList.remove('field__cell_state_locked');
     this.element.removeEventListener('click', this.open);

@@ -12,6 +12,9 @@ export default class Game {
     this.optionsPanel.classList.add('game-options');
     this.modeSelector = document.createElement('select');
     this.modeSelector.classList.add('game-options__selector');
+    this.restartBtn = document.createElement('button');
+    this.restartBtn.classList.add('game-options__restart-btn');
+    this.restartBtn.textContent = 'Restart';
     this.modeSelector.innerHTML = `
       <option value="easy" class="game-options__option">easy</option>
       <option value="medium" class="game-options__option">medium</option>
@@ -28,6 +31,7 @@ export default class Game {
     this.root.append(this.optionsPanel);
     this.optionsPanel.append(this.modeSelector);
     this.optionsPanel.append(this.bombQtySelector);
+    this.optionsPanel.append(this.restartBtn);
   };
 
   generateField = () => {
@@ -48,12 +52,11 @@ export default class Game {
   setListeners = () => {
     this.modeSelector.addEventListener('change', (e) => {
       this.mode = e.target.value;
-      this.startNewGame();
     });
     this.bombQtySelector.addEventListener('change', (e) => {
       this.bombQty = e.target.value;
-      this.startNewGame();
     });
+    this.restartBtn.addEventListener('click', this.startNewGame);
   };
 
   initiate = () => {

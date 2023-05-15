@@ -19,11 +19,11 @@ module.exports = (env) => {
     devServer:
       mode === 'development'
         ? {
-            static: path.resolve(__dirname, 'shelter', 'dist'),
-            open: true,
-            compress: true,
-            port: PORT,
-          }
+          static: path.resolve(__dirname, 'shelter', 'dist'),
+          open: true,
+          compress: true,
+          port: PORT,
+        }
         : undefined,
     devtool: mode === 'development' ? 'inline-source-map' : undefined,
     module: {

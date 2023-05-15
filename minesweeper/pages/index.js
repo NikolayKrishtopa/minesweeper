@@ -7,7 +7,7 @@ const createField = (mode, bombQty, createCell) => (
   new Field(mode, bombQty, createCell).generateField()
 );
 
-const createCell = (text) => new Cell(text);
+const createCell = (text, generateBombs) => new Cell(text, generateBombs);
 
 const game = new Game(createField, createCell);
 

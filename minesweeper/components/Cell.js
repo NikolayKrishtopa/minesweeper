@@ -1,7 +1,8 @@
 export default class Cell {
-  constructor(text) {
+  constructor(text, generateBombs) {
     this.isBomb = false;
     this.text = text;
+    this.generateBombs = generateBombs;
   }
 
   createLayout = () => {
@@ -22,6 +23,7 @@ export default class Cell {
   };
 
   open = () => {
+    this.generateBombs();
     this.element.classList.remove('field__cell_state_flag');
     this.element.classList.remove('field__cell_state_locked');
     this.element.removeEventListener('click', this.open);

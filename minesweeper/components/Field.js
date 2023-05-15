@@ -1,8 +1,11 @@
 export default class Field {
-  constructor(mode, bombQty) {
+  constructor(mode, bombQty, createCell) {
+    this.createCell = createCell;
     this.mode = mode;
     this.bombQty = bombQty;
-    this.calcSize();
+    this.bombs = [];
+    this.cells = [];
+    this.initiate();
   }
 
   calcSize = () => {
@@ -21,21 +24,34 @@ export default class Field {
     }
   };
 
+  generateBombs = () => {
+    for (let b = this.bombQty; b > 0; b -= 1) {
+      const random = Math.round(Math.random() * this.size ** 2);
+      const bomb = { row: Math.ceil(random / this.size), column: (random % this.size) + 1 };
+      this.bombs.push(bomb);
+    }
+  };
+
+  generateCells = () => {
+    for (let i = 1; i <= this.size; i += 1) {
+      const row = [];
+      for (let j = 1; j <= this.size; j += 1) {
+        const cell = this.createCell(`${i}-${j}`);
+        row.push(cell);
+      }
+      this.cells.push(row);
+    }
+  };
+
   createFieldLayout = () => {
     this.field = document.createElement('div');
     this.field.classList.add('field');
-    for (let i = 1; i <= this.size; i += 1) {
+    for (let i = 0; i < this.size; i += 1) {
       const row = document.createElement('div');
       row.classList.add('field__row');
       this.field.append(row);
-      for (let j = 1; j <= this.size; j += 1) {
-        const cell = document.createElement('div');
-        cell.classList.add('field__cell');
-        const cellText = document.createElement('p');
-        cellText.classList.add('field__cell-text');
-        cell.append(cellText);
-        cellText.textContent = `${i}-${j}`;
-        row.append(cell);
+      for (let j = 0; j < this.size; j += 1) {
+        row.append(this.cells[i][j].createLayout());
       }
     }
   };
@@ -43,5 +59,11 @@ export default class Field {
   generateField = () => {
     this.createFieldLayout();
     return this.field;
+  };
+
+  initiate = () => {
+    this.calcSize();
+    this.generateCells();
+    this.generateBombs();
   };
 }

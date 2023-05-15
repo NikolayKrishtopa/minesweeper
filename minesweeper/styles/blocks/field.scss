@@ -24,6 +24,38 @@
 	flex-direction: row;
 	gap: $field-gap;
 	background-color: $background-cell;
+	position: relative;
+}
+.field__cell_state_locked{
+	@include clickable;
+	&::after{
+		position: absolute;
+		content: '';
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		background-color: $background-cell-closed;
+	}
+}
+.field__cell_state_bomb{
+	background-image: url('~/minesweeper/assets/img/bomb.png');
+	background-size: contain;
+	background-position: center;
+}
+.field__cell_state_flag{
+	&::after{
+		position: absolute;
+		content: '';
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		background-image: url('~/minesweeper/assets/img/flag.png');
+		background-size: contain;
+		background-position: center;
+		z-index: 2;
+	}
 }
 .field__text{
 	font-family: $font-content;

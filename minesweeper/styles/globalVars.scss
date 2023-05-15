@@ -1,6 +1,8 @@
 
 $background-light-grey: #f6f6f6;
-$background-cell: #46c51f;
+$background-cell: #d1d1d1;
+$background-cell-closed: rgb(136, 75, 75);
+$background-cell: #d1d1d1;
 $white: #fff;
 $black: #000;
 $background-field:#171cb7; 
@@ -8,7 +10,7 @@ $font-content: 'Arial', serif;
 
 $max-width: 1200px;
 
-$field-gap: 10px;
+$field-gap: 5px;
 
 $breakpoint-extra-big: 1100px;
 $breakpoint-extra-m: 767px;
@@ -17,4 +19,17 @@ $breakpoint-mobile-big: 600px;
 $breakpoint-mobile: 480px;
 @media (max-width: $breakpoint-tablet) {
   $side-padding: 30px;
+}
+
+$transition-duration: 0.5s;
+
+@mixin clickable {
+  cursor: pointer;
+  transition: opacity $transition-duration ease;
+  &:hover {
+    opacity: 50%;
+    @media screen and (hover: none) {
+      opacity: 100%;
+    }
+  }
 }

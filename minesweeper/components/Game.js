@@ -1,6 +1,6 @@
 export default class Game {
-  constructor(createField) {
-    this.createField = () => createField(this.mode, this.bombQty);
+  constructor(createField, createCell) {
+    this.createField = () => createField(this.mode, this.bombQty, createCell);
     this.root = document.querySelector('.root');
     this.mode = 'easy';
     this.bombQty = 10;

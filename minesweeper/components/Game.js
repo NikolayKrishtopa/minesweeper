@@ -5,7 +5,6 @@ export default class Game {
     this.mode = 'easy';
     this.bombQty = 10;
     this.initiate();
-    console.log(createField);
   }
 
   createGameModeMenu = () => {
@@ -31,22 +30,29 @@ export default class Game {
     this.optionsPanel.append(this.bombQtySelector);
   };
 
-  createFieldLayout = () => {
+  generateField = () => {
+    if (this.field) this.field.remove();
     this.field = this.createField();
     this.root.append(this.field);
   };
 
   createLayoutStructure = () => {
     this.createGameModeMenu();
-    this.createFieldLayout();
+    this.generateField();
+  };
+
+  startNewGame = () => {
+    this.generateField();
   };
 
   setListeners = () => {
     this.modeSelector.addEventListener('change', (e) => {
       this.mode = e.target.value;
+      this.startNewGame();
     });
     this.bombQtySelector.addEventListener('change', (e) => {
       this.bombQty = e.target.value;
+      this.startNewGame();
     });
   };
 

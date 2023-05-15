@@ -21,7 +21,7 @@ export default class Field {
     }
   };
 
-  generateField = () => {
+  createFieldLayout = () => {
     this.field = document.createElement('div');
     this.field.classList.add('field');
     for (let i = 1; i <= this.size; i += 1) {
@@ -34,10 +34,14 @@ export default class Field {
         const cellText = document.createElement('p');
         cellText.classList.add('field__cell-text');
         cell.append(cellText);
-        cellText.textContent = `${i} - ${j}`;
+        cellText.textContent = `${i}-${j}`;
         row.append(cell);
       }
     }
+  };
+
+  generateField = () => {
+    this.createFieldLayout();
     return this.field;
   };
 }

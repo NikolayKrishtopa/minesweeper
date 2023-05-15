@@ -1,0 +1,33 @@
+.field{
+	padding: $field-gap;
+	display: flex;
+	flex-direction: column;
+	gap: $field-gap;
+	background-color: $background-field;
+}
+
+.field__row{
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	gap: $field-gap;
+}
+
+.field__cell{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 30px;
+	height: 30px;
+	padding: 10px;
+	display: flex;
+	flex-direction: row;
+	gap: $field-gap;
+	background-color: $background-cell;
+}
+.field__text{
+	font-family: $font-content;
+	font-size: 14px;
+	line-height: 1;
+	color: $white;
+}

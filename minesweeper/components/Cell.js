@@ -1,5 +1,7 @@
 export default class Cell {
-  constructor(coordinates, generateBombs) {
+  constructor(coordinates, generateBombs, incrementMove, loose) {
+    this.loose = loose;
+    this.incrementMove = incrementMove;
     this.isBomb = false;
     this.coordinates = coordinates;
     this.generateBombs = generateBombs;
@@ -23,8 +25,7 @@ export default class Cell {
 
   setValue = (value) => {
     this.value = value;
-    this.cellText.textContent = this.value;
-    //  !== 0 ? this.value : '';
+    this.cellText.textContent = this.value !== 0 ? this.value : '';
   };
 
   open = () => {
@@ -33,6 +34,11 @@ export default class Cell {
     this.element.classList.remove('field__cell_state_locked');
     this.element.removeEventListener('click', this.open);
     this.element.removeEventListener('contextmenu', this.flag);
+    if (this.isBomb) {
+      this.loose();
+    } else {
+      this.incrementMove();
+    }
   };
 
   flag = (e) => {

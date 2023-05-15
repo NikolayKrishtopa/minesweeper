@@ -1,21 +1,28 @@
 export default class Game {
   constructor(createField, createCell) {
-    this.createField = () => createField(this.mode, this.bombQty, createCell);
+    this.createField = () => createField(
+      this.difficulty,
+      this.bombQty,
+      createCell,
+      this.incrementMove,
+      this.loose,
+    );
     this.root = document.querySelector('.root');
-    this.mode = 'easy';
+    this.difficulty = 'easy';
     this.bombQty = 10;
+    this.movesDone = 0;
     this.initiate();
   }
 
   createGameModeMenu = () => {
     this.optionsPanel = document.createElement('div');
     this.optionsPanel.classList.add('game-options');
-    this.modeSelector = document.createElement('select');
-    this.modeSelector.classList.add('game-options__selector');
+    this.difficultySelector = document.createElement('select');
+    this.difficultySelector.classList.add('game-options__selector');
     this.restartBtn = document.createElement('button');
     this.restartBtn.classList.add('game-options__restart-btn');
     this.restartBtn.textContent = 'Restart';
-    this.modeSelector.innerHTML = `
+    this.difficultySelector.innerHTML = `
       <option value="easy" class="game-options__option">easy</option>
       <option value="medium" class="game-options__option">medium</option>
       <option value="hard" class="game-options__option">hard</option>`;
@@ -29,15 +36,28 @@ export default class Game {
       this.bombQtySelector.append(option);
     }
     this.root.append(this.optionsPanel);
-    this.optionsPanel.append(this.modeSelector);
+    this.optionsPanel.append(this.difficultySelector);
     this.optionsPanel.append(this.bombQtySelector);
     this.optionsPanel.append(this.restartBtn);
   };
 
+  incrementMove = () => {
+    this.movesDone += 1;
+    if (this.movesDone === this.field.size ** 2 - this.bombQty) {
+      console.log(`Hooray! You found all mines in ## seconds and ${this.movesDone} moves!`);
+    }
+  };
+
+  loose = () => {
+    this.movesDone = 0;
+    console.log('Game over. Try again');
+  };
+
   generateField = () => {
-    if (this.field) this.field.remove();
+    if (this.fieldElement) this.fieldElement.remove();
     this.field = this.createField();
-    this.root.append(this.field);
+    this.fieldElement = this.field.generateField();
+    this.root.append(this.fieldElement);
   };
 
   createLayoutStructure = () => {
@@ -50,8 +70,8 @@ export default class Game {
   };
 
   setListeners = () => {
-    this.modeSelector.addEventListener('change', (e) => {
-      this.mode = e.target.value;
+    this.difficultySelector.addEventListener('change', (e) => {
+      this.difficulty = e.target.value;
     });
     this.bombQtySelector.addEventListener('change', (e) => {
       this.bombQty = e.target.value;

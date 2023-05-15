@@ -1,7 +1,7 @@
 export default class Field {
-  constructor(mode, bombQty, createCell) {
-    this.createCell = createCell;
-    this.mode = mode;
+  constructor(difficulty, bombQty, createCell, incrementMove, loose) {
+    this.createCell = (coord) => createCell(coord, this.generateBombs, incrementMove, loose);
+    this.difficulty = difficulty;
     this.bombQty = bombQty;
     this.bombs = [];
     this.cellsMatrix = [];
@@ -9,7 +9,7 @@ export default class Field {
   }
 
   calcSize = () => {
-    switch (this.mode) {
+    switch (this.difficulty) {
       case 'easy':
         this.size = 10;
         break;
@@ -55,7 +55,7 @@ export default class Field {
     for (let i = 0; i < this.size; i += 1) {
       const row = [];
       for (let j = 0; j < this.size; j += 1) {
-        const cell = this.createCell({ row: i, column: j }, this.generateBombs);
+        const cell = this.createCell({ row: i, column: j });
         row.push(cell);
       }
       this.cellsMatrix.push(row);

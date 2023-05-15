@@ -1,0 +1,8 @@
+@font-face {
+  font-family: 'Arial';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(./fonts/Arial_Regular.woff) format('woff');
+}
+

@@ -1,0 +1,35 @@
+$primary-dark: #545454;
+$primary-extra: #4c4c4c;
+$grey: #b2b2b2;
+$background-outside: #e5e5e5;
+$max-width: 1200px;
+$white: #fff;
+$black: #000;
+$background-header: radial-gradient(
+  100% 215.42% at 0% 0%,
+  #5b483a 0%,
+  #262425 100%
+);
+$background-light-grey: #f6f6f6;
+$font-content: 'Arial', serif;
+$active-link-color: #fafafa;
+$font-accent: 'Georgia', serif;
+$font-extra-color: #cdcdcd;
+$font-button-color: #292929;
+$gold: #f1cdb3;
+$gold-hover: #fddcc4;
+$side-padding: 40px;
+$background-footer: radial-gradient(
+  110.67% 538.64% at 5.73% 50%,
+  #513d2f 0%,
+  #1a1a1c 100%
+);
+
+$breakpoint-extra-big: 1100px;
+$breakpoint-extra-m: 767px;
+$breakpoint-tablet: 900px;
+$breakpoint-mobile-big: 600px;
+$breakpoint-mobile: 480px;
+@media (max-width: $breakpoint-tablet) {
+  $side-padding: 30px;
+}

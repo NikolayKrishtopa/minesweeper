@@ -82,7 +82,7 @@ export default class Game {
       <div class="header__container">
         <h1 class="header__logo">Minesweeper</h1>
         <div class="header__buttons-wrapper">
-          <button class="header__btn" id="defThemeBtn">
+          <button class="header__btn header__btn_active" id="defThemeBtn">
             <img src="#" alt="default theme button" />
           </button>
           <button class="header__btn" id="darkThemeBtn">
@@ -110,9 +110,13 @@ export default class Game {
     switch (this.theme) {
       case 'default':
         this.root.classList.remove('dark');
+        this.defThemeBtn.classList.add('header__btn_active');
+        this.darkThemeBtn.classList.remove('header__btn_active');
         break;
       case 'dark':
         this.root.classList.add('dark');
+        this.defThemeBtn.classList.remove('header__btn_active');
+        this.darkThemeBtn.classList.add('header__btn_active');
         break;
       default:
         break;

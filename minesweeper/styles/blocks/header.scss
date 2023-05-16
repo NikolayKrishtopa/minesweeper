@@ -26,4 +26,13 @@
 
 .header__btn{
 	@include clickable;
+	width: 34px;
+	height: 34px;
+	display: flex;
+	align-items: center;
+	border-radius: 50%;
+	justify-content: center;
+	&_active{
+		border: 1px solid yellow;
+	}
 }

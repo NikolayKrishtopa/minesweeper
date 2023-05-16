@@ -26,6 +26,7 @@ export default class Cell {
   setValue = (value) => {
     this.value = value;
     this.cellText.textContent = (this.value !== 0 && !this.isBomb) ? this.value : '';
+    this.element.classList.add(`field__cell_danger_${value}`);
   };
 
   open = () => {

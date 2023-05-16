@@ -44,6 +44,30 @@
 	background-color: $background-cell;
 	position: relative;
 }
+.field__cell_danger_1{
+	background-color: rgb(239, 239, 141);
+}
+.field__cell_danger_2{
+	background-color: rgb(246, 246, 62);
+}
+.field__cell_danger_3{
+	background-color: rgb(240, 206, 13);
+}
+.field__cell_danger_4{
+	background-color: orange;
+}
+.field__cell_danger_5{
+	background-color: orangered
+}
+.field__cell_danger_6{
+	background-color: red;
+}
+.field__cell_danger_7{
+	background-color: rgb(162, 20, 20);
+}
+.field__cell_danger_8{
+	background-color: rgb(129, 21, 21);
+}
 .field__cell_state_locked{
 	@include clickable;
 	&::after{

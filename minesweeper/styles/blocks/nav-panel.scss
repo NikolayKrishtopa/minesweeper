@@ -1,0 +1,30 @@
+.nav-panel{
+	display: grid;
+	grid-template-columns: 3fr 2fr;
+	width: 100%;
+	max-width: 700px;
+	&__game-options{
+	display: grid;
+	grid-template-columns: repeat(3,1fr);
+	width: 100%;
+	max-width: 400px;
+	};
+	&__restart-btn{
+		@include button(18px, 5px);
+	}
+	&__selector{
+		@include button(18px, 5px);
+	}
+	&__info-panel{
+		width: 100%;
+		display: grid;
+		grid-template-columns: repeat(2,1fr);
+	}
+	&__score{
+	@include button(18px, 5px);
+	}
+	&__timer{
+	@include button(18px, 5px);
+	}
+}
+

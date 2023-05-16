@@ -23,26 +23,25 @@ export default class Game {
 
   createGameModeMenu = () => {
     this.optionsPanel = document.createElement('div');
-    this.optionsPanel.classList.add('game-options');
+    this.optionsPanel.classList.add('nav-panel__game-options');
     this.difficultySelector = document.createElement('select');
-    this.difficultySelector.classList.add('game-options__selector');
+    this.difficultySelector.classList.add('nav-panel__selector');
     this.restartBtn = document.createElement('button');
-    this.restartBtn.classList.add('game-options__restart-btn');
+    this.restartBtn.classList.add('nav-panel__restart-btn');
     this.restartBtn.textContent = 'Restart';
     this.difficultySelector.innerHTML = `
-      <option value="easy" class="game-options__option">easy</option>
-      <option value="medium" class="game-options__option">medium</option>
-      <option value="hard" class="game-options__option">hard</option>`;
+      <option value="easy" class="nav-panel__option">easy</option>
+      <option value="medium" class="nav-panel__option">medium</option>
+      <option value="hard" class="nav-panel__option">hard</option>`;
     this.bombQtySelector = document.createElement('select');
-    this.bombQtySelector.classList.add('game-options__selector');
+    this.bombQtySelector.classList.add('nav-panel__selector');
     for (let i = 10; i < 100; i += 1) {
       const option = document.createElement('option');
-      option.classList.add('game-options__option');
+      option.classList.add('nav-panel__option');
       option.value = i;
       option.textContent = i;
       this.bombQtySelector.append(option);
     }
-    this.root.append(this.optionsPanel);
     this.optionsPanel.append(this.difficultySelector);
     this.optionsPanel.append(this.bombQtySelector);
     this.optionsPanel.append(this.restartBtn);
@@ -50,16 +49,25 @@ export default class Game {
 
   createInfoPanel = () => {
     this.infoPanel = document.createElement('div');
-    this.infoPanel.classList.add('info-panel');
+    this.infoPanel.classList.add('nav-panel__info-panel');
     this.timerCanvas = document.createElement('p');
-    this.timerCanvas.classList.add('info-panel__timer');
+    this.timerCanvas.classList.add('nav-panel__timer');
     this.timerCanvas.textContent = 0;
     this.score = document.createElement('p');
-    this.score.classList.add('info-panel__score');
+    this.score.classList.add('nav-panel__score');
     this.score.textContent = 0;
-    this.root.append(this.infoPanel);
     this.infoPanel.append(this.timerCanvas);
     this.infoPanel.append(this.score);
+  };
+
+  createNavPanel = () => {
+    this.createGameModeMenu();
+    this.createInfoPanel();
+    this.navPanel = document.createElement('div');
+    this.navPanel.classList.add('nav-panel');
+    this.root.append(this.navPanel);
+    this.navPanel.append(this.optionsPanel);
+    this.navPanel.append(this.infoPanel);
   };
 
   incrementMove = () => {
@@ -133,8 +141,7 @@ export default class Game {
 
   createLayoutStructure = () => {
     this.constructHeader();
-    this.createGameModeMenu();
-    this.createInfoPanel();
+    this.createNavPanel();
     this.addPopup();
     this.generateField();
   };

@@ -1,0 +1,29 @@
+.header {
+	width: 100%;
+	padding: 20px;
+	background-color: var(--header-backgound);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.header__logo {
+	font-family: $font-content;
+	font-size: 32px;
+	color: var(--text-color);
+}
+.header__buttons-wrapper {
+	display: flex;
+	gap: 10px;
+	align-items: center;
+}
+.header__container{
+	width: 100%;
+	max-width: $max-width;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.header__btn{
+	@include clickable;
+}

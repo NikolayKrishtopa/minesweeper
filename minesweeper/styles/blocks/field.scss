@@ -2,11 +2,29 @@
 	padding: $field-gap;
 	display: flex;
 	width: 100%;
-	max-width: 600px;
+	max-width: 700px;
 	flex-direction: column;
 	gap: $field-gap;
-	background-color: $background-field;
+	background-color:  var(--background-field);
+	&_size_15{
+		gap: calc($field-gap / 2);
+		padding: calc($field-gap / 2);
+		.field__row{
+			grid-template-columns: repeat(15, 1fr);
+			gap: calc($field-gap / 2);
+	}
 }
+&_size_25{
+	gap: calc($field-gap / 3);
+	padding: calc($field-gap / 3);
+	.field__row{
+		grid-template-columns: repeat(25, 1fr);
+		gap: calc($field-gap / 3);
+	}
+}
+}
+
+
 
 .field__row{
 	width: 100%;
@@ -15,14 +33,12 @@
 	gap: $field-gap;
 }
 
+
 .field__cell{
 	aspect-ratio: 1;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-
-	padding: 10px;
-	display: flex;
 	flex-direction: row;
 	gap: $field-gap;
 	background-color: $background-cell;
@@ -37,8 +53,8 @@
 		bottom: 0;
 		left: 0;
 		right: 0;
-		background-color: $background-cell-closed;
-		opacity: 70%;
+		background-color: var(--background-cell-closed);
+		// opacity: 70%;
 	}
 }
 .field__cell_state_bomb{
@@ -57,12 +73,11 @@
 		background-image: url('~/minesweeper/assets/img/flag.png');
 		background-size: contain;
 		background-position: center;
-		z-index: 2;
 	}
 }
 .field__text{
 	font-family: $font-content;
-	font-size: 14px;
+	font-size: 1em;
 	line-height: 1;
-	color: $white;
+	color: var(--text-color);
 }

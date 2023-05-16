@@ -4,15 +4,17 @@
 	right: 0;
 	bottom: 0;
 	left: 0;
-	background-color: rgba(0,0,0,0.7);
+	background-color: rgba(0,0,0,0.5);
 	display: none;
-	justify-content: center;
-	align-items: center;
+	justify-content: flex-end;
+	align-items: flex-start;
 	z-index: 1;
 	&__container{
+		margin-top: 30px;
+		margin-right: 30px;
 		background-color: $white;
 		width: 100%;
-		max-width: 600px;
+		max-width: 400px;
 		padding: 20px;
 		display: flex;
 		flex-direction: column;
@@ -26,18 +28,10 @@
 	}
 	&__button{
 		@include clickable;
-		width: 100%;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		font-family: $font-content;
-		font-size: 22px;
-		padding: 10px;
-		line-height: 1;
-		background-color: greenyellow;
+		@include button(24px, 20px);
+		border: none;		
 	}
 	&_state_open{
 	display: flex;
-
 	}
 }

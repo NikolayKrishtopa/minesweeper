@@ -12,7 +12,7 @@ export default class Cell {
     this.element.classList.add('field__cell');
     this.element.classList.add('field__cell_state_locked');
     this.cellText = document.createElement('p');
-    this.cellText.classList.add('field__cell-text');
+    this.cellText.classList.add('field__text');
     this.element.append(this.cellText);
     this.setListeners();
     return this.element;
@@ -25,7 +25,7 @@ export default class Cell {
 
   setValue = (value) => {
     this.value = value;
-    this.cellText.textContent = this.value !== 0 ? this.value : '';
+    this.cellText.textContent = (this.value !== 0 && !this.isBomb) ? this.value : '';
   };
 
   open = () => {

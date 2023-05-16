@@ -1,3 +1,6 @@
+import moonImg from '../assets/img/moon_fill.svg';
+import sunImg from '../assets/img/sun_fill.svg';
+
 export default class Game {
   constructor(createField, createCell, createPopup) {
     this.popup = createPopup(this.restart);
@@ -13,6 +16,7 @@ export default class Game {
     this.bombQty = 10;
     this.movesDone = 0;
     this.initiate();
+    this.theme = 'default';
   }
 
   createGameModeMenu = () => {
@@ -45,13 +49,18 @@ export default class Game {
   incrementMove = () => {
     this.movesDone += 1;
     if (this.movesDone === this.field.size ** 2 - this.bombQty) {
-      this.popup.open(`Hooray! You found all mines in ## seconds and ${this.movesDone} moves!`);
+      this.win();
     }
   };
 
   loose = () => {
-    this.movesDone = 0;
     this.popup.open('Game over. Try again');
+    this.blockClicking();
+  };
+
+  win = () => {
+    this.popup.open(`Hooray! You found all mines in ## seconds and ${this.movesDone} moves!`);
+    this.blockClicking();
   };
 
   generateField = () => {
@@ -65,15 +74,68 @@ export default class Game {
     this.root.append(this.popup.getElement());
   };
 
+  constructHeader = () => {
+    const header = document.createElement('header');
+    header.classList.add('header');
+    header.innerHTML = `
+    <header class="header">
+      <div class="header__container">
+        <h1 class="header__logo">Minesweeper</h1>
+        <div class="header__buttons-wrapper">
+          <button class="header__btn" id="defThemeBtn">
+            <img src="#" alt="default theme button" />
+          </button>
+          <button class="header__btn" id="darkThemeBtn">
+            <img src="#" alt="dark theme button" />
+          </button>
+        </div>
+      </div>
+    </header>
+    `;
+    this.root.prepend(header);
+    this.defThemeBtn = this.root.querySelector('#defThemeBtn');
+    this.darkThemeBtn = this.root.querySelector('#darkThemeBtn');
+    this.darkThemeBtn.querySelector('img').src = moonImg;
+    this.defThemeBtn.querySelector('img').src = sunImg;
+  };
+
   createLayoutStructure = () => {
+    this.constructHeader();
     this.createGameModeMenu();
     this.addPopup();
     this.generateField();
   };
 
+  renderTheme = () => {
+    switch (this.theme) {
+      case 'default':
+        this.root.classList.remove('dark');
+        break;
+      case 'dark':
+        this.root.classList.add('dark');
+        break;
+      default:
+        break;
+    }
+  };
+
+  setDefTheme = () => {
+    this.theme = 'default';
+    this.renderTheme();
+  };
+
+  setDarkTheme = () => {
+    this.theme = 'dark';
+    this.renderTheme();
+  };
+
   restart = () => {
     this.movesDone = 0;
     this.generateField();
+  };
+
+  blockClicking = () => {
+    this.field.field.style.pointerEvents = 'none';
   };
 
   setListeners = () => {
@@ -84,6 +146,8 @@ export default class Game {
       this.bombQty = e.target.value;
     });
     this.restartBtn.addEventListener('click', this.restart);
+    this.defThemeBtn.addEventListener('click', this.setDefTheme);
+    this.darkThemeBtn.addEventListener('click', this.setDarkTheme);
   };
 
   initiate = () => {

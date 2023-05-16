@@ -66,6 +66,7 @@ export default class Field {
   createFieldLayout = () => {
     this.field = document.createElement('div');
     this.field.classList.add('field');
+    this.field.classList.add(`field_size_${this.size}`);
     for (let i = 0; i < this.size; i += 1) {
       const row = document.createElement('div');
       row.classList.add('field__row');

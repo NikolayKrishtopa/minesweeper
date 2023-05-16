@@ -17,6 +17,8 @@ export default class Game {
     this.movesDone = 0;
     this.initiate();
     this.theme = 'default';
+    this.seconds = 0;
+    this.startTimer();
   }
 
   createGameModeMenu = () => {
@@ -46,8 +48,23 @@ export default class Game {
     this.optionsPanel.append(this.restartBtn);
   };
 
+  createInfoPanel = () => {
+    this.infoPanel = document.createElement('div');
+    this.infoPanel.classList.add('info-panel');
+    this.timerCanvas = document.createElement('p');
+    this.timerCanvas.classList.add('info-panel__timer');
+    this.timerCanvas.textContent = 0;
+    this.score = document.createElement('p');
+    this.score.classList.add('info-panel__score');
+    this.score.textContent = 0;
+    this.root.append(this.infoPanel);
+    this.infoPanel.append(this.timerCanvas);
+    this.infoPanel.append(this.score);
+  };
+
   incrementMove = () => {
     this.movesDone += 1;
+    this.score.textContent = this.movesDone;
     if (this.movesDone === this.field.size ** 2 - this.bombQty) {
       this.win();
     }
@@ -56,11 +73,13 @@ export default class Game {
   loose = () => {
     this.popup.open('Game over. Try again');
     this.blockClicking();
+    this.stopTimer();
   };
 
   win = () => {
-    this.popup.open(`Hooray! You found all mines in ## seconds and ${this.movesDone} moves!`);
+    this.popup.open(`Hooray! You found all mines in ${this.seconds} seconds and ${this.movesDone} moves!`);
     this.blockClicking();
+    this.stopTimer();
   };
 
   generateField = () => {
@@ -72,6 +91,19 @@ export default class Game {
 
   addPopup = () => {
     this.root.append(this.popup.getElement());
+  };
+
+  startTimer = () => {
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
+      this.seconds += 1;
+      this.timerCanvas.textContent = this.seconds;
+      this.startTimer();
+    }, 1000);
+  };
+
+  stopTimer = () => {
+    clearTimeout(this.timer);
   };
 
   constructHeader = () => {
@@ -102,6 +134,7 @@ export default class Game {
   createLayoutStructure = () => {
     this.constructHeader();
     this.createGameModeMenu();
+    this.createInfoPanel();
     this.addPopup();
     this.generateField();
   };
@@ -134,8 +167,16 @@ export default class Game {
   };
 
   restart = () => {
-    this.movesDone = 0;
+    this.resetState();
+    this.startTimer();
     this.generateField();
+  };
+
+  resetState = () => {
+    this.movesDone = 0;
+    this.seconds = 0;
+    this.timerCanvas.textContent = 0;
+    this.score.textContent = 0;
   };
 
   blockClicking = () => {

@@ -1,6 +1,5 @@
 .header {
 	width: 100%;
-	padding: 20px;
 	background-color: var(--header-backgound);
 	display: flex;
 	justify-content: center;
@@ -9,7 +8,7 @@
 .header__logo {
 	font-family: $font-content;
 	font-size: 32px;
-	color: var(--text-color);
+	color: yellow;
 }
 .header__buttons-wrapper {
 	display: flex;
@@ -17,6 +16,7 @@
 	align-items: center;
 }
 .header__container{
+	padding: 20px;
 	width: 100%;
 	max-width: $max-width;
 	display: flex;

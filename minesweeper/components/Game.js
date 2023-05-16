@@ -1,5 +1,6 @@
 export default class Game {
-  constructor(createField, createCell) {
+  constructor(createField, createCell, createPopup) {
+    this.popup = createPopup(this.restart);
     this.createField = () => createField(
       this.difficulty,
       this.bombQty,
@@ -44,13 +45,13 @@ export default class Game {
   incrementMove = () => {
     this.movesDone += 1;
     if (this.movesDone === this.field.size ** 2 - this.bombQty) {
-      console.log(`Hooray! You found all mines in ## seconds and ${this.movesDone} moves!`);
+      this.popup.open(`Hooray! You found all mines in ## seconds and ${this.movesDone} moves!`);
     }
   };
 
   loose = () => {
     this.movesDone = 0;
-    console.log('Game over. Try again');
+    this.popup.open('Game over. Try again');
   };
 
   generateField = () => {
@@ -60,12 +61,18 @@ export default class Game {
     this.root.append(this.fieldElement);
   };
 
+  addPopup = () => {
+    this.root.append(this.popup.getElement());
+  };
+
   createLayoutStructure = () => {
     this.createGameModeMenu();
+    this.addPopup();
     this.generateField();
   };
 
-  startNewGame = () => {
+  restart = () => {
+    this.movesDone = 0;
     this.generateField();
   };
 
@@ -76,7 +83,7 @@ export default class Game {
     this.bombQtySelector.addEventListener('change', (e) => {
       this.bombQty = e.target.value;
     });
-    this.restartBtn.addEventListener('click', this.startNewGame);
+    this.restartBtn.addEventListener('click', this.restart);
   };
 
   initiate = () => {

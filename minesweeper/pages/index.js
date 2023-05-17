@@ -8,8 +8,8 @@ const createField = (difficulty, bombQty, createCell, incrementMove, loose) => (
   new Field(difficulty, bombQty, createCell, incrementMove, loose)
 );
 
-const createCell = (coordinates, generateBombs, incrementMove, loose) => (
-  new Cell(coordinates, generateBombs, incrementMove, loose));
+const createCell = (coordinates, generateBombs, incrementMove, loose, checkSurround) => (
+  new Cell(coordinates, generateBombs, incrementMove, loose, checkSurround));
 
 const createPopup = (onRestart) => new Popup(onRestart);
 

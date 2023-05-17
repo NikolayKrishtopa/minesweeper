@@ -1,10 +1,12 @@
 export default class Cell {
-  constructor(coordinates, generateBombs, incrementMove, loose) {
+  constructor(coordinates, generateBombs, incrementMove, loose, checkSurround) {
     this.loose = loose;
+    this.checkSurround = () => checkSurround(this.coordinates);
     this.incrementMove = incrementMove;
     this.isBomb = false;
     this.coordinates = coordinates;
     this.generateBombs = generateBombs;
+    this.isClosed = true;
   }
 
   createLayout = () => {
@@ -14,6 +16,7 @@ export default class Cell {
     this.cellText = document.createElement('p');
     this.cellText.classList.add('field__text');
     this.element.append(this.cellText);
+    this.value = 0;
     this.setListeners();
     return this.element;
   };
@@ -30,6 +33,7 @@ export default class Cell {
   };
 
   open = () => {
+    this.isClosed = false;
     this.generateBombs(this.coordinates);
     this.element.classList.remove('field__cell_state_flag');
     this.element.classList.remove('field__cell_state_locked');
@@ -39,6 +43,7 @@ export default class Cell {
       this.loose();
     } else {
       this.incrementMove();
+      if (this.value === 0) this.checkSurround();
     }
   };
 
@@ -52,7 +57,9 @@ export default class Cell {
   };
 
   setListeners = () => {
-    this.element.addEventListener('click', this.open);
+    this.element.addEventListener('click', () => {
+      this.open();
+    });
     this.element.addEventListener('contextmenu', this.flag);
   };
 }

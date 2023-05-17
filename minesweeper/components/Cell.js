@@ -15,7 +15,6 @@ export default class Cell {
       isBomb: false,
       isFlagged: false,
     };
-    console.log(this.state);
     this.cashState = cashState;
     this.incrementOpenCells = incrementOpenCells;
     this.loose = loose;

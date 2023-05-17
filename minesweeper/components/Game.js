@@ -8,7 +8,7 @@ export default class Game {
       this.difficulty,
       this.state.bombQty,
       createCell,
-      this.incrementMove,
+      this.incrementMoves,
       this.loose,
       this.incrementOpenCells,
       this.cashState,
@@ -24,10 +24,10 @@ export default class Game {
       seconds: 0,
       latest: [],
       fieldState: null,
+      timerLaunched: false,
     };
     this.field = null;
     this.initiate();
-    this.startTimer();
   }
 
   createGameModeMenu = () => {
@@ -80,14 +80,14 @@ export default class Game {
   };
 
   incrementOpenCells = () => {
+    if (!this.state.timerLaunched) this.startTimer();
     this.state.openCells += 1;
     if (this.state.openCells === this.field.size ** 2 - this.state.bombQty) {
       this.win();
     }
-    console.log(this.state.openCells);
   };
 
-  incrementMove = () => {
+  incrementMoves = () => {
     this.state.movesDone += 1;
     this.score.textContent = this.state.movesDone;
   };
@@ -118,6 +118,7 @@ export default class Game {
   };
 
   startTimer = () => {
+    this.state.timerLaunched = true;
     clearTimeout(this.timer);
     this.timer = setTimeout(() => {
       this.state.seconds += 1;
@@ -129,6 +130,7 @@ export default class Game {
 
   stopTimer = () => {
     clearTimeout(this.timer);
+    this.state.timerLaunched = false;
   };
 
   constructHeader = () => {
@@ -191,9 +193,10 @@ export default class Game {
   };
 
   restart = () => {
+    this.stopTimer();
     this.resetState();
-    this.startTimer();
     this.generateField();
+    this.cashState();
   };
 
   resetState = () => {
@@ -224,6 +227,8 @@ export default class Game {
   initiate = () => {
     this.createLayoutStructure();
     this.setListeners();
+    if (this.state.timerLaunched) this.startTimer();
+    console.log(this.state.timerLaunched);
   };
 
   cashState = () => {

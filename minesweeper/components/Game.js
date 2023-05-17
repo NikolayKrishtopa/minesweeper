@@ -4,22 +4,29 @@ import sunImg from '../assets/img/sun_fill.svg';
 export default class Game {
   constructor(createField, createCell, createPopup) {
     this.popup = createPopup(this.restart);
-    this.createField = () => createField(
+    this.createField = (fieldInitialState) => createField(
       this.difficulty,
-      this.bombQty,
+      this.state.bombQty,
       createCell,
       this.incrementMove,
       this.loose,
       this.incrementOpenCells,
+      this.cashState,
+      fieldInitialState,
     );
     this.root = document.querySelector('.root');
     this.difficulty = 'easy';
-    this.bombQty = 10;
-    this.movesDone = 0;
-    this.openCells = 0;
+    this.state = JSON.parse(localStorage.getItem('minesweeperState')) || {
+      bombQty: 10,
+      movesDone: 0,
+      openCells: 0,
+      theme: 'default',
+      seconds: 0,
+      latest: [],
+      fieldState: null,
+    };
+    this.field = null;
     this.initiate();
-    this.theme = 'default';
-    this.seconds = 0;
     this.startTimer();
   }
 
@@ -35,17 +42,17 @@ export default class Game {
       <option value="easy" class="nav-panel__option">easy</option>
       <option value="medium" class="nav-panel__option">medium</option>
       <option value="hard" class="nav-panel__option">hard</option>`;
-    this.bombQtySelector = document.createElement('select');
-    this.bombQtySelector.classList.add('nav-panel__selector');
+    this.state.bombQtySelector = document.createElement('select');
+    this.state.bombQtySelector.classList.add('nav-panel__selector');
     for (let i = 10; i < 100; i += 1) {
       const option = document.createElement('option');
       option.classList.add('nav-panel__option');
       option.value = i;
       option.textContent = i;
-      this.bombQtySelector.append(option);
+      this.state.bombQtySelector.append(option);
     }
     this.optionsPanel.append(this.difficultySelector);
-    this.optionsPanel.append(this.bombQtySelector);
+    this.optionsPanel.append(this.state.bombQtySelector);
     this.optionsPanel.append(this.restartBtn);
   };
 
@@ -54,10 +61,10 @@ export default class Game {
     this.infoPanel.classList.add('nav-panel__info-panel');
     this.timerCanvas = document.createElement('p');
     this.timerCanvas.classList.add('nav-panel__timer');
-    this.timerCanvas.textContent = 0;
+    this.timerCanvas.textContent = this.state.seconds;
     this.score = document.createElement('p');
     this.score.classList.add('nav-panel__score');
-    this.score.textContent = 0;
+    this.score.textContent = this.state.movesDone;
     this.infoPanel.append(this.timerCanvas);
     this.infoPanel.append(this.score);
   };
@@ -73,34 +80,35 @@ export default class Game {
   };
 
   incrementOpenCells = () => {
-    this.openCells += 1;
-    if (this.openCells === this.field.size ** 2 - this.bombQty) {
+    this.state.openCells += 1;
+    if (this.state.openCells === this.field.size ** 2 - this.state.bombQty) {
       this.win();
     }
+    console.log(this.state.openCells);
   };
 
   incrementMove = () => {
-    this.movesDone += 1;
-    this.score.textContent = this.movesDone;
+    this.state.movesDone += 1;
+    this.score.textContent = this.state.movesDone;
   };
 
   loose = () => {
     this.popup.open('Game over. Try again');
     this.blockClicking();
     this.stopTimer();
-    this.field.showBombs();
+    this.field.showAll();
   };
 
   win = () => {
-    this.popup.open(`Hooray! You found all mines in ${this.seconds} seconds and ${this.movesDone} moves!`);
+    this.popup.open(`Hooray! You found all mines in ${this.state.seconds} seconds and ${this.state.movesDone} moves!`);
     this.blockClicking();
     this.stopTimer();
-    this.field.showBombs();
+    this.field.showAll();
   };
 
   generateField = () => {
     if (this.fieldElement) this.fieldElement.remove();
-    this.field = this.createField();
+    this.field = this.createField(this.state.fieldState);
     this.fieldElement = this.field.generateField();
     this.root.append(this.fieldElement);
   };
@@ -112,9 +120,10 @@ export default class Game {
   startTimer = () => {
     clearTimeout(this.timer);
     this.timer = setTimeout(() => {
-      this.seconds += 1;
-      this.timerCanvas.textContent = this.seconds;
+      this.state.seconds += 1;
+      this.timerCanvas.textContent = this.state.seconds;
       this.startTimer();
+      this.cashState();
     }, 1000);
   };
 
@@ -155,7 +164,7 @@ export default class Game {
   };
 
   renderTheme = () => {
-    switch (this.theme) {
+    switch (this.state.theme) {
       case 'default':
         this.root.classList.remove('dark');
         this.defThemeBtn.classList.add('header__btn_active');
@@ -172,12 +181,12 @@ export default class Game {
   };
 
   setDefTheme = () => {
-    this.theme = 'default';
+    this.state.theme = 'default';
     this.renderTheme();
   };
 
   setDarkTheme = () => {
-    this.theme = 'dark';
+    this.state.theme = 'dark';
     this.renderTheme();
   };
 
@@ -188,9 +197,10 @@ export default class Game {
   };
 
   resetState = () => {
-    this.movesDone = 0;
-    this.openCells = 0;
-    this.seconds = 0;
+    this.state.fieldState = null;
+    this.state.movesDone = 0;
+    this.state.openCells = 0;
+    this.state.seconds = 0;
     this.timerCanvas.textContent = 0;
     this.score.textContent = 0;
   };
@@ -203,8 +213,8 @@ export default class Game {
     this.difficultySelector.addEventListener('change', (e) => {
       this.difficulty = e.target.value;
     });
-    this.bombQtySelector.addEventListener('change', (e) => {
-      this.bombQty = e.target.value;
+    this.state.bombQtySelector.addEventListener('change', (e) => {
+      this.state.bombQty = e.target.value;
     });
     this.restartBtn.addEventListener('click', this.restart);
     this.defThemeBtn.addEventListener('click', this.setDefTheme);
@@ -214,5 +224,11 @@ export default class Game {
   initiate = () => {
     this.createLayoutStructure();
     this.setListeners();
+  };
+
+  cashState = () => {
+    this.state.fieldState = this.field.state;
+    this.state.fieldState.cellsState = this.field?.cellsMatrix.map((e) => e.map((f) => f.state));
+    localStorage.setItem('minesweeperState', JSON.stringify(this.state));
   };
 }

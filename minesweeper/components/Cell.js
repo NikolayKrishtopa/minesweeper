@@ -1,13 +1,28 @@
 export default class Cell {
-  constructor(coordinates, generateBombs, incrementMove, loose, checkSurround, incrementOpenCells) {
+  constructor(
+    coordinates,
+    generateBombs,
+    incrementMove,
+    loose,
+    checkSurround,
+    incrementOpenCells,
+    cashState,
+    initialState,
+  ) {
+    this.state = initialState || {
+      isClosed: true,
+      value: 0,
+      isBomb: false,
+      isFlagged: false,
+    };
+    console.log(this.state);
+    this.cashState = cashState;
     this.incrementOpenCells = incrementOpenCells;
     this.loose = loose;
     this.checkSurround = () => checkSurround(this.coordinates);
     this.incrementMove = incrementMove;
-    this.isBomb = false;
     this.coordinates = coordinates;
     this.generateBombs = generateBombs;
-    this.isClosed = true;
   }
 
   createLayout = () => {
@@ -17,44 +32,66 @@ export default class Cell {
     this.cellText = document.createElement('p');
     this.cellText.classList.add('field__text');
     this.element.append(this.cellText);
-    this.value = 0;
     this.setListeners();
+    this.renderState();
     return this.element;
   };
 
   setBomb = () => {
-    this.isBomb = true;
-    this.element.classList.add('field__cell_state_bomb');
+    this.state.isBomb = true;
+    this.renderState();
   };
 
   setValue = (value) => {
-    this.value = value;
-    this.cellText.textContent = (this.value !== 0 && !this.isBomb) ? this.value : '';
-    this.element.classList.add(`field__cell_danger_${value}`);
+    this.state.value = value;
+    this.renderState();
   };
 
   open = () => {
-    this.isClosed = false;
-    this.element.classList.remove('field__cell_state_locked');
-    if (!this.isBomb) {
+    this.state.isClosed = false;
+    if (!this.state.isBomb) {
       this.incrementOpenCells();
-      if (this.value === 0) {
+      if (this.state.value === 0) {
         this.checkSurround();
       }
     }
+    this.renderState();
   };
 
   handleMove = () => {
     this.generateBombs(this.coordinates);
-    if (this.isBomb) {
+    if (this.state.isBomb) {
       this.loose();
     } else {
       this.incrementMove();
     }
     this.open();
-    this.element.classList.remove('field__cell_state_flag');
+    this.isFlagged = false;
+    this.renderState();
     this.element.removeEventListener('click', this.handleMove);
     this.element.removeEventListener('contextmenu', this.flag);
+    this.cashState();
+  };
+
+  renderState = () => {
+    if (this.state.isClosed) {
+      this.element.classList.add('field__cell_state_locked');
+    } else {
+      this.element.classList.remove('field__cell_state_locked');
+    }
+
+    if (this.state.isBomb) {
+      this.element.classList.add('field__cell_state_bomb');
+    } else {
+      this.element.classList.remove('field__cell_state_bomb');
+    }
+    if (this.state.isFlagged) {
+      this.element.classList.add('field__cell_state_flag');
+    } else {
+      this.element.classList.remove('field__cell_state_flag');
+    }
+    this.cellText.textContent = (this.state.value !== 0 && !this.state.isBomb) ? this.state.value : '';
+    this.element.classList.add(`field__cell_danger_${this.state.value}`);
   };
 
   flag = (e) => {

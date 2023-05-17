@@ -1,6 +1,15 @@
 export default class Field {
-  constructor(difficulty, bombQty, createCell, incrementMove, loose, incrementOpenCells) {
-    this.createCell = (coord) => (
+  constructor(
+    difficulty,
+    bombQty,
+    createCell,
+    incrementMove,
+    loose,
+    incrementOpenCells,
+    cashState,
+    initialState,
+  ) {
+    this.createCell = (coord, cellInitialState) => (
       createCell(
         coord,
         this.generateBombs,
@@ -8,12 +17,18 @@ export default class Field {
         loose,
         this.checkSurround,
         incrementOpenCells,
+        cashState,
+        cellInitialState,
       )
     );
+    this.state = initialState || {
+      bombsPlaced: false,
+    };
+    this.cellsMatrix = [];
+    this.cellsFlat = [];
     this.difficulty = difficulty;
     this.bombQty = bombQty;
     this.bombs = [];
-    this.cellsMatrix = [];
     this.initiate();
   }
 
@@ -34,16 +49,19 @@ export default class Field {
   };
 
   generateBombs = (clicked) => {
-    if (this.bombs.length) return;
-    let allCells = this.cellsFlat.filter((c) => (
-      c.coordinates.row !== clicked.row || c.coordinates.column !== clicked.column));
-    for (let b = this.bombQty; b > 0; b -= 1) {
-      const random = Math.floor(Math.random() * allCells.length);
-      this.bombs.push(allCells[random]);
-      allCells = allCells.filter((_, i) => i !== random);
+    if (this.state.bombsPlaced) return;
+    if (!this.bombs.length) {
+      let allCells = this.cellsFlat.filter((c) => (
+        c.coordinates.row !== clicked.row || c.coordinates.column !== clicked.column));
+      for (let b = this.bombQty; b > 0; b -= 1) {
+        const random = Math.floor(Math.random() * allCells.length);
+        this.bombs.push(allCells[random]);
+        allCells = allCells.filter((_, i) => i !== random);
+      }
     }
     this.bombs.forEach((e) => e.setBomb());
     this.calculateValues();
+    this.state.bombsPlaced = true;
   };
 
   calculateValues = () => {
@@ -52,7 +70,7 @@ export default class Field {
       for (let i = e.coordinates.row - 1; i <= e.coordinates.row + 1; i += 1) {
         if (this.cellsMatrix[i]) {
           for (let j = e.coordinates.column - 1; j <= e.coordinates.column + 1; j += 1) {
-            if (this?.cellsMatrix[i][j]?.isBomb) surroundingBombs += 1;
+            if (this?.cellsMatrix[i][j]?.state.isBomb) surroundingBombs += 1;
           }
         }
       }
@@ -64,7 +82,7 @@ export default class Field {
     for (let i = coordinates.row - 1; i <= coordinates.row + 1; i += 1) {
       if (this.cellsMatrix[i]) {
         for (let j = coordinates.column - 1; j <= coordinates.column + 1; j += 1) {
-          if (this?.cellsMatrix[i][j]?.isClosed) {
+          if (this?.cellsMatrix[i][j]?.state.isClosed) {
             if (!(Math.abs(i - coordinates.row) === 1 && Math.abs(j - coordinates.column) === 1)) {
               this.cellsMatrix[i][j].open();
             }
@@ -78,7 +96,11 @@ export default class Field {
     for (let i = 0; i < this.size; i += 1) {
       const row = [];
       for (let j = 0; j < this.size; j += 1) {
-        const cell = this.createCell({ row: i, column: j });
+        let initState = null;
+        if (this.state?.cellsState?.length >= i) {
+          if (this.state?.cellsState[i]?.length >= j) { initState = this.state.cellsState[i][j]; }
+        }
+        const cell = this.createCell({ row: i, column: j }, initState);
         row.push(cell);
       }
       this.cellsMatrix.push(row);
@@ -100,7 +122,7 @@ export default class Field {
     }
   };
 
-  showBombs = () => {
+  showAll = () => {
     this.cellsFlat.forEach((e) => e.open());
   };
 

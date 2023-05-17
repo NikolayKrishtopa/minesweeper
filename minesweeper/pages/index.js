@@ -4,8 +4,26 @@ import Field from '../components/Field';
 import Cell from '../components/Cell';
 import Popup from '../components/Popup';
 
-const createField = (difficulty, bombQty, createCell, incrementMove, loose, incrementOpenCells) => (
-  new Field(difficulty, bombQty, createCell, incrementMove, loose, incrementOpenCells)
+const createField = (
+  difficulty,
+  bombQty,
+  createCell,
+  incrementMove,
+  loose,
+  incrementOpenCells,
+  cashState,
+  iniitialState,
+) => (
+  new Field(
+    difficulty,
+    bombQty,
+    createCell,
+    incrementMove,
+    loose,
+    incrementOpenCells,
+    cashState,
+    iniitialState,
+  )
 );
 
 const createCell = (
@@ -15,8 +33,19 @@ const createCell = (
   loose,
   checkSurround,
   incrementOpenCells,
+  cashState,
+  initialState,
 ) => (
-  new Cell(coordinates, generateBombs, incrementMove, loose, checkSurround, incrementOpenCells));
+  new Cell(
+    coordinates,
+    generateBombs,
+    incrementMove,
+    loose,
+    checkSurround,
+    incrementOpenCells,
+    cashState,
+    initialState,
+  ));
 
 const createPopup = (onRestart) => new Popup(onRestart);
 

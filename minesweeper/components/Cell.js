@@ -34,10 +34,14 @@ export default class Cell {
 
   open = () => {
     this.isClosed = false;
+    this.element.classList.remove('field__cell_state_locked');
+  };
+
+  handleMove = () => {
+    this.open();
     this.generateBombs(this.coordinates);
     this.element.classList.remove('field__cell_state_flag');
-    this.element.classList.remove('field__cell_state_locked');
-    this.element.removeEventListener('click', this.open);
+    this.element.removeEventListener('click', this.handleMove);
     this.element.removeEventListener('contextmenu', this.flag);
     if (this.isBomb) {
       this.loose();
@@ -58,7 +62,7 @@ export default class Cell {
 
   setListeners = () => {
     this.element.addEventListener('click', () => {
-      this.open();
+      this.handleMove();
     });
     this.element.addEventListener('contextmenu', this.flag);
   };

@@ -82,12 +82,14 @@ export default class Game {
     this.popup.open('Game over. Try again');
     this.blockClicking();
     this.stopTimer();
+    this.field.showBombs();
   };
 
   win = () => {
     this.popup.open(`Hooray! You found all mines in ${this.seconds} seconds and ${this.movesDone} moves!`);
     this.blockClicking();
     this.stopTimer();
+    this.field.showBombs();
   };
 
   generateField = () => {

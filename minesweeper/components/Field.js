@@ -1,7 +1,14 @@
 export default class Field {
-  constructor(difficulty, bombQty, createCell, incrementMove, loose) {
+  constructor(difficulty, bombQty, createCell, incrementMove, loose, incrementOpenCells) {
     this.createCell = (coord) => (
-      createCell(coord, this.generateBombs, incrementMove, loose, this.checkSurround)
+      createCell(
+        coord,
+        this.generateBombs,
+        incrementMove,
+        loose,
+        this.checkSurround,
+        incrementOpenCells,
+      )
     );
     this.difficulty = difficulty;
     this.bombQty = bombQty;
@@ -59,7 +66,7 @@ export default class Field {
         for (let j = coordinates.column - 1; j <= coordinates.column + 1; j += 1) {
           if (this?.cellsMatrix[i][j]?.isClosed) {
             if (!(Math.abs(i - coordinates.row) === 1 && Math.abs(j - coordinates.column) === 1)) {
-              this.cellsMatrix[i][j].handleMove();
+              this.cellsMatrix[i][j].open();
             }
           }
         }

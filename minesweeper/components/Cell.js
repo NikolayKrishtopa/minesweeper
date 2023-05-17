@@ -1,5 +1,6 @@
 export default class Cell {
-  constructor(coordinates, generateBombs, incrementMove, loose, checkSurround) {
+  constructor(coordinates, generateBombs, incrementMove, loose, checkSurround, incrementOpenCells) {
+    this.incrementOpenCells = incrementOpenCells;
     this.loose = loose;
     this.checkSurround = () => checkSurround(this.coordinates);
     this.incrementMove = incrementMove;
@@ -35,20 +36,25 @@ export default class Cell {
   open = () => {
     this.isClosed = false;
     this.element.classList.remove('field__cell_state_locked');
+    if (!this.isBomb) {
+      this.incrementOpenCells();
+      if (this.value === 0) {
+        this.checkSurround();
+      }
+    }
   };
 
   handleMove = () => {
-    this.open();
     this.generateBombs(this.coordinates);
-    this.element.classList.remove('field__cell_state_flag');
-    this.element.removeEventListener('click', this.handleMove);
-    this.element.removeEventListener('contextmenu', this.flag);
     if (this.isBomb) {
       this.loose();
     } else {
       this.incrementMove();
-      if (this.value === 0) this.checkSurround();
     }
+    this.open();
+    this.element.classList.remove('field__cell_state_flag');
+    this.element.removeEventListener('click', this.handleMove);
+    this.element.removeEventListener('contextmenu', this.flag);
   };
 
   flag = (e) => {

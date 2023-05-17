@@ -10,11 +10,13 @@ export default class Game {
       createCell,
       this.incrementMove,
       this.loose,
+      this.incrementOpenCells,
     );
     this.root = document.querySelector('.root');
     this.difficulty = 'easy';
     this.bombQty = 10;
     this.movesDone = 0;
+    this.openCells = 0;
     this.initiate();
     this.theme = 'default';
     this.seconds = 0;
@@ -70,12 +72,16 @@ export default class Game {
     this.navPanel.append(this.infoPanel);
   };
 
+  incrementOpenCells = () => {
+    this.openCells += 1;
+    if (this.openCells === this.field.size ** 2 - this.bombQty) {
+      this.win();
+    }
+  };
+
   incrementMove = () => {
     this.movesDone += 1;
     this.score.textContent = this.movesDone;
-    if (this.movesDone === this.field.size ** 2 - this.bombQty) {
-      this.win();
-    }
   };
 
   loose = () => {
@@ -183,6 +189,7 @@ export default class Game {
 
   resetState = () => {
     this.movesDone = 0;
+    this.openCells = 0;
     this.seconds = 0;
     this.timerCanvas.textContent = 0;
     this.score.textContent = 0;

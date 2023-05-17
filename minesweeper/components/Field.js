@@ -52,12 +52,13 @@ export default class Field {
   };
 
   checkSurround = (coordinates) => {
-    console.log(coordinates);
     for (let i = coordinates.row - 1; i <= coordinates.row + 1; i += 1) {
       if (this.cellsMatrix[i]) {
         for (let j = coordinates.column - 1; j <= coordinates.column + 1; j += 1) {
-          if (this?.cellsMatrix[i][j]?.value === 0 && this?.cellsMatrix[i][j]?.isClosed) {
-            this.cellsMatrix[i][j].open();
+          if (this?.cellsMatrix[i][j]?.isClosed) {
+            if (!(Math.abs(i - coordinates.row) === 1 && Math.abs(j - coordinates.column) === 1)) {
+              this.cellsMatrix[i][j].open();
+            }
           }
         }
       }

@@ -227,6 +227,7 @@ export default class Game {
   initiate = () => {
     this.createLayoutStructure();
     this.setListeners();
+    this.renderTheme();
     if (this.state.timerLaunched) this.startTimer();
     console.log(this.state.timerLaunched);
   };

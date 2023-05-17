@@ -41,32 +41,32 @@
 	justify-content: center;
 	flex-direction: row;
 	gap: $field-gap;
-	background-color: $background-cell;
+	background-color: var(--background-cell);
 	position: relative;
 }
 .field__cell_danger_1{
-	background-color: rgb(240, 240, 41);
+	background-color: var(--danger_1);
 }
 .field__cell_danger_2{
-	background-color: orange;
+	background-color: var(--danger_2);
 }
 .field__cell_danger_3{
-	background-color: rgb(244, 75, 14);
+	background-color: var(--danger_3);
 }
 .field__cell_danger_4{
-	background-color: red;
+	background-color: var(--danger_4);
 }
 .field__cell_danger_5{
-	background-color: rgb(184, 15, 15)
+	background-color: var(--danger_5);
 }
 .field__cell_danger_6{
-	background-color: rgb(166, 11, 11);
+	background-color: var(--danger_6);
 }
 .field__cell_danger_7{
-	background-color: rgb(162, 20, 20);
+	background-color: var(--danger_7);
 }
 .field__cell_danger_8{
-	background-color: rgb(129, 21, 21);
+	background-color: var(--danger_8);
 }
 .field__cell_state_locked{
 	@include clickable;

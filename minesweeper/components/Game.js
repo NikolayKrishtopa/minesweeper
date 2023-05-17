@@ -22,12 +22,13 @@ export default class Game {
       openCells: 0,
       theme: 'default',
       seconds: 0,
-      latest: [],
+      history: [],
       fieldState: null,
-      timerLaunched: false,
+      gameInProcess: false,
     };
     this.field = null;
     this.initiate();
+    console.log(this.state.history);
   }
 
   createGameModeMenu = () => {
@@ -80,7 +81,7 @@ export default class Game {
   };
 
   incrementOpenCells = () => {
-    if (!this.state.timerLaunched) this.startTimer();
+    if (!this.state.gameInProcess) this.startTimer();
     this.state.openCells += 1;
     if (this.state.openCells === this.field.size ** 2 - this.state.bombQty) {
       this.win();
@@ -93,16 +94,18 @@ export default class Game {
   };
 
   loose = () => {
+    this.stopTimer();
+    this.state.history.push({ result: 'fail', score: this.state.movesDone, time: this.state.seconds });
     this.popup.open('Game over. Try again');
     this.blockClicking();
-    this.stopTimer();
     this.field.showAll();
   };
 
   win = () => {
+    this.stopTimer();
+    this.state.history.push({ result: 'win', score: this.state.movesDone, time: this.state.seconds });
     this.popup.open(`Hooray! You found all mines in ${this.state.seconds} seconds and ${this.state.movesDone} moves!`);
     this.blockClicking();
-    this.stopTimer();
     this.field.showAll();
   };
 
@@ -118,7 +121,7 @@ export default class Game {
   };
 
   startTimer = () => {
-    this.state.timerLaunched = true;
+    this.state.gameInProcess = true;
     clearTimeout(this.timer);
     this.timer = setTimeout(() => {
       this.state.seconds += 1;
@@ -130,7 +133,7 @@ export default class Game {
 
   stopTimer = () => {
     clearTimeout(this.timer);
-    this.state.timerLaunched = false;
+    this.state.gameInProcess = false;
   };
 
   constructHeader = () => {
@@ -193,7 +196,10 @@ export default class Game {
   };
 
   restart = () => {
-    this.stopTimer();
+    if (this.state.gameInProcess) {
+      this.state.history.push({ result: 'unfinished', score: this.state.movesDone, time: this.state.seconds });
+      this.stopTimer();
+    }
     this.resetState();
     this.generateField();
     this.cashState();
@@ -228,8 +234,7 @@ export default class Game {
     this.createLayoutStructure();
     this.setListeners();
     this.renderTheme();
-    if (this.state.timerLaunched) this.startTimer();
-    console.log(this.state.timerLaunched);
+    if (this.state.gameInProcess) this.startTimer();
   };
 
   cashState = () => {

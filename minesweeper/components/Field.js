@@ -123,7 +123,9 @@ export default class Field {
   };
 
   showAll = () => {
-    this.cellsFlat.forEach((e) => e.open());
+    this.cellsFlat.forEach((e) => {
+      if (e.isClosed)e.open();
+    });
   };
 
   generateField = () => {

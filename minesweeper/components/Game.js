@@ -28,7 +28,6 @@ export default class Game {
     };
     this.field = null;
     this.initiate();
-    console.log(this.state.history);
   }
 
   createGameModeMenu = () => {
@@ -75,9 +74,20 @@ export default class Game {
     this.createInfoPanel();
     this.navPanel = document.createElement('div');
     this.navPanel.classList.add('nav-panel');
-    this.root.append(this.navPanel);
     this.navPanel.append(this.optionsPanel);
     this.navPanel.append(this.infoPanel);
+    return this.navPanel;
+  };
+
+  createMainLayout = () => {
+    this.mainElem = document.createElement('main');
+    this.mainElem.classList.add('content');
+    this.mainElem.append(this.createNavPanel());
+    this.fieldContainer = document.createElement('div');
+    this.fieldContainer.classList.add('content__container');
+    this.fieldContainer.append(this.generateField());
+    this.mainElem.append(this.fieldContainer);
+    this.root.append(this.mainElem);
   };
 
   incrementOpenCells = () => {
@@ -110,10 +120,15 @@ export default class Game {
   };
 
   generateField = () => {
-    if (this.fieldElement) this.fieldElement.remove();
     this.field = this.createField(this.state.fieldState);
     this.fieldElement = this.field.generateField();
-    this.root.append(this.fieldElement);
+    return this.fieldElement;
+  };
+
+  restartField = () => {
+    if (!this.fieldElement) return;
+    this.fieldElement.remove();
+    this.fieldContainer.append(this.generateField());
   };
 
   addPopup = () => {
@@ -163,9 +178,8 @@ export default class Game {
 
   createLayoutStructure = () => {
     this.constructHeader();
-    this.createNavPanel();
+    this.createMainLayout();
     this.addPopup();
-    this.generateField();
   };
 
   renderTheme = () => {
@@ -201,7 +215,7 @@ export default class Game {
       this.stopTimer();
     }
     this.resetState();
-    this.generateField();
+    this.restartField();
     this.cashState();
   };
 

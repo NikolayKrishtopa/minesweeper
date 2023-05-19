@@ -124,7 +124,7 @@ export default class Field {
 
   showAll = () => {
     this.cellsFlat.forEach((e) => {
-      if (e.isClosed)e.open();
+      if (e.state.isClosed)e.open();
     });
   };
 

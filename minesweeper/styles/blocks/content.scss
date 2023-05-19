@@ -1,0 +1,20 @@
+.content{
+	display: flex;
+	padding: 30px;
+	width: 100%;
+	align-items: center;
+	justify-content: flex-start;
+	flex-direction: column;
+	gap: 30px;
+	position: relative;
+	&__container{
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	@media screen and (max-width: $breakpoint-mobile-big) {
+		padding-right: 10px;
+		padding-left: 10px;
+	}
+}

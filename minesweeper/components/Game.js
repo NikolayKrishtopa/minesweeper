@@ -110,8 +110,8 @@ export default class Game {
 
   loose = () => {
     this.stopTimer();
-    this.state.history.push({ result: 'fail', score: this.state.movesDone, time: this.state.seconds });
-    // this.state.history = this.state.history.splice(-10);
+    this.state.history.unshift({ result: 'fail', score: this.state.movesDone, time: this.state.seconds });
+    // this.state.history.splice(-10);
     this.popupRes.open('Game over. Try again');
     this.blockClicking();
     this.field.showAll();
@@ -119,8 +119,8 @@ export default class Game {
 
   win = () => {
     this.stopTimer();
-    this.state.history.push({ result: 'win', score: this.state.movesDone, time: this.state.seconds });
-    // this.state.history = this.state.history.splice(-10);
+    this.state.history.unshift({ result: 'win', score: this.state.movesDone, time: this.state.seconds });
+    // this.state.history.splice(-10);
     this.popupRes.open(`Hooray! You found all mines in ${this.state.seconds} seconds and ${this.state.movesDone} moves!`);
     this.blockClicking();
     this.field.showAll();
@@ -248,8 +248,8 @@ export default class Game {
 
   restart = () => {
     if (this.state.gameInProcess) {
-      this.state.history.push({ result: 'unfinished', score: this.state.movesDone, time: this.state.seconds });
-      // this.state.history = this.state.history.splice(-10);
+      this.state.history.unshift({ result: 'unfinished', score: this.state.movesDone, time: this.state.seconds });
+      // this.state.history.splice(-10);
       this.stopTimer();
     }
     this.resetState();

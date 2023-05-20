@@ -5,7 +5,6 @@ export default class PopupStats extends Popup {
   constructor() {
     super();
     this.initiate();
-    console.log(this.records);
   }
 
   create = () => {
@@ -24,6 +23,7 @@ export default class PopupStats extends Popup {
   };
 
   renderList = () => {
+    this.list.innerHTML = '';
     this.records.forEach((r, i) => {
       const item = document.createElement('li');
       item.classList.add('popup__list-item');

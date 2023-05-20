@@ -52,6 +52,21 @@
 			
 		}	
 	}
+	&__list{
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		padding: 0;
+		margin: 0;
+	}
+	&__list-item{
+		font-family: $font-content;
+		font-size: 18px;
+		line-height: 1;
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
 	&_state_open{
 	display: flex;
 	}

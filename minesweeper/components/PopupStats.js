@@ -2,10 +2,10 @@ import Popup from './Popup';
 import closeIcon from '../assets/img/close_icon.svg';
 
 export default class PopupStats extends Popup {
-  constructor(records) {
+  constructor() {
     super();
-    this.records = records;
     this.initiate();
+    console.log(this.records);
   }
 
   create = () => {
@@ -18,9 +18,23 @@ export default class PopupStats extends Popup {
     this.closeBtn.append(img);
     img.src = closeIcon;
     img.alt = 'Close window';
+    this.list = document.createElement('ul');
+    this.list.classList.add('popup__list');
+    this.container.append(this.list);
   };
 
-  open = () => {
+  renderList = () => {
+    this.records.forEach((r, i) => {
+      const item = document.createElement('li');
+      item.classList.add('popup__list-item');
+      item.textContent = `${i + 1}. Moves: ${r.score}, time: ${r.time} sec. ${r.result}`;
+      this.list.append(item);
+    });
+  };
+
+  open = (records) => {
     super.open();
+    this.records = records;
+    this.renderList();
   };
 }

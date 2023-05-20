@@ -111,6 +111,7 @@ export default class Game {
   loose = () => {
     this.stopTimer();
     this.state.history.push({ result: 'fail', score: this.state.movesDone, time: this.state.seconds });
+    // this.state.history = this.state.history.splice(-10);
     this.popupRes.open('Game over. Try again');
     this.blockClicking();
     this.field.showAll();
@@ -119,6 +120,7 @@ export default class Game {
   win = () => {
     this.stopTimer();
     this.state.history.push({ result: 'win', score: this.state.movesDone, time: this.state.seconds });
+    // this.state.history = this.state.history.splice(-10);
     this.popupRes.open(`Hooray! You found all mines in ${this.state.seconds} seconds and ${this.state.movesDone} moves!`);
     this.blockClicking();
     this.field.showAll();
@@ -247,6 +249,7 @@ export default class Game {
   restart = () => {
     if (this.state.gameInProcess) {
       this.state.history.push({ result: 'unfinished', score: this.state.movesDone, time: this.state.seconds });
+      // this.state.history = this.state.history.splice(-10);
       this.stopTimer();
     }
     this.resetState();
@@ -277,7 +280,7 @@ export default class Game {
     this.restartBtn.addEventListener('click', this.restart);
     this.defThemeBtn.addEventListener('click', this.setDefTheme);
     this.darkThemeBtn.addEventListener('click', this.setDarkTheme);
-    this.statsBtn.addEventListener('click', this.popupStats.open);
+    this.statsBtn.addEventListener('click', () => this.popupStats.open(this.state.history));
     this.soundBtn.addEventListener('click', this.toggleSound);
   };
 

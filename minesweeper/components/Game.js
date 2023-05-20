@@ -167,32 +167,25 @@ export default class Game {
     <header class="header">
       <div class="header__container">
         <h1 class="header__logo">Minesweeper</h1>
-        <div class="header__nav">
+        <div class="header__nav">      
           <button class="header__btn" id="statsBtn">
             <img src="#" alt="statistic"/>
           </button>
           <button class="header__btn" id="soundBtn">
             <img src="#" alt="sound button"/>
           </button>
-          <div class="header__theme-btns-wrapper">
-            <button class="header__btn header__btn_active" id="defThemeBtn">
-              <img src="#" alt="default theme button" />
-            </button>
-            <button class="header__btn" id="darkThemeBtn">
-              <img src="#" alt="dark theme button" />
-            </button>
-          </div>
+          <button class="header__btn " id="themeBtn">
+            <img src="#" alt="default theme button" />
+          </button>
         </div>
       </div>
     </header>
     `;
     this.root.prepend(header);
-    this.defThemeBtn = this.root.querySelector('#defThemeBtn');
+    this.themeBtn = this.root.querySelector('#themeBtn');
     this.darkThemeBtn = this.root.querySelector('#darkThemeBtn');
     this.statsBtn = this.root.querySelector('button');
     this.soundBtn = this.root.querySelector('#soundBtn');
-    this.darkThemeBtn.querySelector('img').src = moonImg;
-    this.defThemeBtn.querySelector('img').src = sunImg;
     this.statsBtn.querySelector('img').src = historyIcon;
   };
 
@@ -203,16 +196,17 @@ export default class Game {
   };
 
   renderTheme = () => {
+    const img = this.themeBtn.querySelector('img');
     switch (this.state.theme) {
       case 'default':
         this.root.classList.remove('dark');
-        this.defThemeBtn.classList.add('header__btn_active');
-        this.darkThemeBtn.classList.remove('header__btn_active');
+        img.src = sunImg;
+        img.alt = 'default theme button';
         break;
       case 'dark':
         this.root.classList.add('dark');
-        this.defThemeBtn.classList.remove('header__btn_active');
-        this.darkThemeBtn.classList.add('header__btn_active');
+        img.src = moonImg;
+        img.alt = 'dark theme button';
         break;
       default:
         break;
@@ -232,13 +226,10 @@ export default class Game {
     }
   };
 
-  setDefTheme = () => {
-    this.state.theme = 'default';
-    this.renderTheme();
-  };
-
-  setDarkTheme = () => {
-    this.state.theme = 'dark';
+  toggleTheme = () => {
+    if (this.state.theme === 'default') {
+      this.state.theme = 'dark';
+    } else { this.state.theme = 'default'; }
     this.renderTheme();
   };
 
@@ -279,8 +270,7 @@ export default class Game {
       this.state.bombQty = e.target.value;
     });
     this.restartBtn.addEventListener('click', this.restart);
-    this.defThemeBtn.addEventListener('click', this.setDefTheme);
-    this.darkThemeBtn.addEventListener('click', this.setDarkTheme);
+    this.themeBtn.addEventListener('click', this.toggleTheme);
     this.statsBtn.addEventListener('click', () => this.popupStats.open(this.state.history));
     this.soundBtn.addEventListener('click', this.toggleSound);
   };

@@ -8,7 +8,7 @@ export default class Game {
   constructor(createField, createCell, createPopup) {
     this.popupRes = createPopup('result', this.restart);
     this.createField = (fieldInitialState) => createField(
-      this.difficulty,
+      this.state.difficulty,
       this.state.bombQty,
       createCell,
       this.incrementMoves,
@@ -18,7 +18,6 @@ export default class Game {
       fieldInitialState,
     );
     this.root = document.querySelector('.root');
-    this.difficulty = 'easy';
     this.state = JSON.parse(localStorage.getItem('minesweeperState')) || {
       bombQty: 10,
       movesDone: 0,
@@ -29,6 +28,7 @@ export default class Game {
       fieldState: null,
       gameInProcess: false,
       soundOn: true,
+      difficulty: 'easy',
     };
     this.popupStats = createPopup('history', this.state.history);
     this.field = null;
@@ -47,18 +47,22 @@ export default class Game {
       <option value="easy" class="nav-panel__option">easy</option>
       <option value="medium" class="nav-panel__option">medium</option>
       <option value="hard" class="nav-panel__option">hard</option>`;
-    this.state.bombQtySelector = document.createElement('select');
-    this.state.bombQtySelector.classList.add('nav-panel__selector');
+    this.bombQtySelector = document.createElement('select');
+    this.bombQtySelector.classList.add('nav-panel__selector');
     for (let i = 10; i < 100; i += 1) {
       const option = document.createElement('option');
       option.classList.add('nav-panel__option');
       option.value = i;
       option.textContent = i;
-      this.state.bombQtySelector.append(option);
+      this.bombQtySelector.append(option);
     }
     this.optionsPanel.append(this.difficultySelector);
-    this.optionsPanel.append(this.state.bombQtySelector);
+    this.optionsPanel.append(this.bombQtySelector);
     this.optionsPanel.append(this.restartBtn);
+    Array.from(this.difficultySelector.options)
+      .find((e) => e.value === this.state.difficulty).selected = true;
+    Array.from(this.bombQtySelector.options)
+      .find((e) => e.value === this.state.bombQty).selected = true;
   };
 
   createInfoPanel = () => {
@@ -264,10 +268,12 @@ export default class Game {
 
   setListeners = () => {
     this.difficultySelector.addEventListener('change', (e) => {
-      this.difficulty = e.target.value;
+      this.state.difficulty = e.target.value;
+      this.restart();
     });
-    this.state.bombQtySelector.addEventListener('change', (e) => {
+    this.bombQtySelector.addEventListener('change', (e) => {
       this.state.bombQty = e.target.value;
+      this.restart();
     });
     this.restartBtn.addEventListener('click', this.restart);
     this.themeBtn.addEventListener('click', this.toggleTheme);

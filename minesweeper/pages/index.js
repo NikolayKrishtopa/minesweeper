@@ -2,7 +2,8 @@ import './index.scss';
 import Game from '../components/Game';
 import Field from '../components/Field';
 import Cell from '../components/Cell';
-import Popup from '../components/Popup';
+import PopupResult from '../components/PopupResult';
+import PopupStats from '../components/PopupStats';
 
 const createField = (
   difficulty,
@@ -47,7 +48,11 @@ const createCell = (
     initialState,
   ));
 
-const createPopup = (onRestart) => new Popup(onRestart);
+const createPopup = (type, args) => (
+  type === 'result'
+    ? new PopupResult(args)
+    : new PopupStats(args)
+);
 
 const game = new Game(createField, createCell, createPopup);
 

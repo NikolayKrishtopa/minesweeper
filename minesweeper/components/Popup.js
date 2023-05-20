@@ -1,13 +1,9 @@
 export default class Popup {
-  constructor(onRestart) {
-    this.onRestart = () => {
-      onRestart();
-      this.close();
-    };
+  constructor() {
     this.initiate();
   }
 
-  create = () => {
+  create() {
     this.element = document.createElement('div');
     this.element.classList.add('popup');
     this.container = document.createElement('div');
@@ -15,39 +11,38 @@ export default class Popup {
     this.element.append(this.container);
     this.message = document.createElement('p');
     this.message.classList.add('popup__text');
-    this.restartBtn = document.createElement('button');
-    this.restartBtn.classList.add('popup__button');
-    this.restartBtn.textContent = 'Retry';
     this.closeBtn = document.createElement('button');
     this.closeBtn.classList.add('popup__button');
     this.closeBtn.textContent = 'Close';
-    [this.message, this.restartBtn, this.closeBtn].forEach((e) => this.container.append(e));
-  };
+    [this.message, this.closeBtn].forEach((e) => this.container.append(e));
+  }
 
-  setListeners = () => {
-    this.restartBtn.addEventListener('click', this.onRestart);
-    this.closeBtn.addEventListener('click', this.close);
-  };
+  setListeners() {
+    this.closeBtn.addEventListener(
+      'click',
+      this.close,
+    );
+  }
 
-  unsetListeners = () => {
-    this.restartBtn.removeEventListener('click', this.onRestart);
+  unsetListeners() {
     this.closeBtn.removeEventListener('click', this.close);
-  };
+  }
 
-  getElement = () => this.element;
+  getElement() {
+    return this.element;
+  }
 
-  open = (message) => {
+  open() {
     this.element.classList.add('popup_state_open');
-    this.message.textContent = message;
     this.setListeners();
-  };
+  }
 
   close = () => {
     this.element.classList.remove('popup_state_open');
     this.unsetListeners();
   };
 
-  initiate = () => {
+  initiate() {
     this.create();
-  };
+  }
 }

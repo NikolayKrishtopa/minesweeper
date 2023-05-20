@@ -1,9 +1,12 @@
 import moonImg from '../assets/img/moon_fill.svg';
 import sunImg from '../assets/img/sun_fill.svg';
+import soundOnIcon from '../assets/img/sound_on.svg';
+import soundOffIcon from '../assets/img/sound_off.svg';
+import historyIcon from '../assets/img/history.svg';
 
 export default class Game {
   constructor(createField, createCell, createPopup) {
-    this.popup = createPopup(this.restart);
+    this.popupRes = createPopup('result', this.restart);
     this.createField = (fieldInitialState) => createField(
       this.difficulty,
       this.state.bombQty,
@@ -25,7 +28,9 @@ export default class Game {
       history: [],
       fieldState: null,
       gameInProcess: false,
+      soundOn: true,
     };
+    this.popupStats = createPopup('history', this.state.history);
     this.field = null;
     this.initiate();
   }
@@ -106,7 +111,7 @@ export default class Game {
   loose = () => {
     this.stopTimer();
     this.state.history.push({ result: 'fail', score: this.state.movesDone, time: this.state.seconds });
-    this.popup.open('Game over. Try again');
+    this.popupRes.open('Game over. Try again');
     this.blockClicking();
     this.field.showAll();
   };
@@ -114,7 +119,7 @@ export default class Game {
   win = () => {
     this.stopTimer();
     this.state.history.push({ result: 'win', score: this.state.movesDone, time: this.state.seconds });
-    this.popup.open(`Hooray! You found all mines in ${this.state.seconds} seconds and ${this.state.movesDone} moves!`);
+    this.popupRes.open(`Hooray! You found all mines in ${this.state.seconds} seconds and ${this.state.movesDone} moves!`);
     this.blockClicking();
     this.field.showAll();
   };
@@ -132,7 +137,8 @@ export default class Game {
   };
 
   addPopup = () => {
-    this.root.append(this.popup.getElement());
+    this.root.append(this.popupRes.getElement());
+    this.root.append(this.popupStats.getElement());
   };
 
   startTimer = () => {
@@ -158,13 +164,21 @@ export default class Game {
     <header class="header">
       <div class="header__container">
         <h1 class="header__logo">Minesweeper</h1>
-        <div class="header__buttons-wrapper">
-          <button class="header__btn header__btn_active" id="defThemeBtn">
-            <img src="#" alt="default theme button" />
+        <div class="header__nav">
+          <button class="header__btn" id="statsBtn">
+            <img src="#" alt="statistic"/>
           </button>
-          <button class="header__btn" id="darkThemeBtn">
-            <img src="#" alt="dark theme button" />
+          <button class="header__btn" id="soundBtn">
+            <img src="#" alt="sound button"/>
           </button>
+          <div class="header__theme-btns-wrapper">
+            <button class="header__btn header__btn_active" id="defThemeBtn">
+              <img src="#" alt="default theme button" />
+            </button>
+            <button class="header__btn" id="darkThemeBtn">
+              <img src="#" alt="dark theme button" />
+            </button>
+          </div>
         </div>
       </div>
     </header>
@@ -172,8 +186,11 @@ export default class Game {
     this.root.prepend(header);
     this.defThemeBtn = this.root.querySelector('#defThemeBtn');
     this.darkThemeBtn = this.root.querySelector('#darkThemeBtn');
+    this.statsBtn = this.root.querySelector('button');
+    this.soundBtn = this.root.querySelector('#soundBtn');
     this.darkThemeBtn.querySelector('img').src = moonImg;
     this.defThemeBtn.querySelector('img').src = sunImg;
+    this.statsBtn.querySelector('img').src = historyIcon;
   };
 
   createLayoutStructure = () => {
@@ -199,6 +216,19 @@ export default class Game {
     }
   };
 
+  renderSoundBtn = () => {
+    switch (this.state.soundOn) {
+      case true:
+        this.soundBtn.querySelector('img').src = soundOnIcon;
+        break;
+      case false:
+        this.soundBtn.querySelector('img').src = soundOffIcon;
+        break;
+      default:
+        break;
+    }
+  };
+
   setDefTheme = () => {
     this.state.theme = 'default';
     this.renderTheme();
@@ -207,6 +237,11 @@ export default class Game {
   setDarkTheme = () => {
     this.state.theme = 'dark';
     this.renderTheme();
+  };
+
+  toggleSound = () => {
+    this.state.soundOn = !this.state.soundOn;
+    this.renderSoundBtn();
   };
 
   restart = () => {
@@ -242,12 +277,15 @@ export default class Game {
     this.restartBtn.addEventListener('click', this.restart);
     this.defThemeBtn.addEventListener('click', this.setDefTheme);
     this.darkThemeBtn.addEventListener('click', this.setDarkTheme);
+    this.statsBtn.addEventListener('click', this.popupStats.open);
+    this.soundBtn.addEventListener('click', this.toggleSound);
   };
 
   initiate = () => {
     this.createLayoutStructure();
     this.setListeners();
     this.renderTheme();
+    this.renderSoundBtn();
     if (this.state.gameInProcess) this.startTimer();
   };
 

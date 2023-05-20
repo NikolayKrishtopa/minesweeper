@@ -9,6 +9,13 @@
 	justify-content: flex-end;
 	align-items: flex-start;
 	z-index: 1;
+	&_type_stats{
+		align-items: center;
+		justify-content: center;
+		.popup__container{
+			margin: 0;
+		}
+	}
 	&__container{
 		margin-top: 30px;
 		margin-right: 30px;
@@ -20,6 +27,7 @@
 		flex-direction: column;
 		gap: 20px;
 		border-radius: 10px;
+		position: relative;
 	}
 	&__text{
 		font-family: $font-content;
@@ -29,7 +37,20 @@
 	&__button{
 		@include clickable;
 		@include button(24px, 20px);
-		border: none;		
+		border: none;	
+		&_type_close{
+			position: absolute;
+			width: 40px;
+			height: 40px;
+			right: -40px;
+			top: -40px;
+			background-color: transparent;
+			border-radius: 50%;
+			img{
+				transform: scale(1.5);
+			}
+			
+		}	
 	}
 	&_state_open{
 	display: flex;

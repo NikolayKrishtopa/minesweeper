@@ -58,6 +58,7 @@ export default class Cell {
   };
 
   handleMove = () => {
+    if (!this.state.isClosed) return;
     this.generateBombs(this.coordinates);
     if (this.state.isBomb) {
       this.loose();

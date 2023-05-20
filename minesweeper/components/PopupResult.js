@@ -15,9 +15,6 @@ export default class PopupResult extends Popup {
     this.restartBtn = document.createElement('button');
     this.restartBtn.classList.add('popup__button');
     this.restartBtn.textContent = 'Retry';
-    this.closeBtn = document.createElement('button');
-    this.closeBtn.classList.add('popup__button');
-    this.closeBtn.textContent = 'Close';
     this.container.append(this.restartBtn);
   };
 

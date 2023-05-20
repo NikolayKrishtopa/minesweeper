@@ -102,7 +102,7 @@ export default class Game {
   incrementOpenCells = () => {
     this.state.openCells += 1;
     if (this.state.openCells === this.field.size ** 2 - this.state.bombQty
-      && this.gameInProcess) {
+      && this.state.gameInProcess) {
       this.win();
     }
   };

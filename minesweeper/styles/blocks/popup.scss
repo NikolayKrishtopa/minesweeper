@@ -29,17 +29,32 @@
 		gap: 20px;
 		border-radius: 10px;
 		position: relative;
+		@media screen and (max-width: $breakpoint-mobile-big) {
+			max-width: 250px;
+		}
+		@media screen and (max-width: $breakpoint-mobile) {
+			margin: 15px;
+			// max-width: unset;
+			// align-self: center;
+			// justify-self: center;
+		}
 	}
 	&__text{
 		font-family: $font-content;
 		font-size: 24px;
 		line-height: 1;
+			@media screen and (max-width: $breakpoint-mobile-big) {
+				font-size: 18px;
+			}
 	}
 	&__button{
 		@include clickable;
 		@include button(24px, 20px);
 		border: none;	
-
+		@media screen and (max-width: $breakpoint-mobile-big) {
+				padding: 10px;
+				font-size: 18px;
+			}
 		&_type_close{
 			position: absolute;
 			width: 40px;
@@ -55,7 +70,6 @@
 				top: -45px;
 				right: -15px;
 			}
-			
 		}	
 	}
 	&__list{
@@ -72,13 +86,11 @@
 		list-style: none;
 		padding: 0;
 		margin: 0;
+		@media screen and (max-width: $breakpoint-mobile-big) {
+			font-size: 14px;
+		}
 	}
 	&_state_open{
 	display: flex;
-	}
-		@media screen and (max-width: $breakpoint-mobile-big) {
-			&__container{
-				max-width: 200px;
-			}
 	}
 }

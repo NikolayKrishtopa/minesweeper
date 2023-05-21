@@ -3,9 +3,15 @@ import sunImg from '../assets/img/sun_fill.svg';
 import soundOnIcon from '../assets/img/sound_on.svg';
 import soundOffIcon from '../assets/img/sound_off.svg';
 import historyIcon from '../assets/img/history.svg';
+import openSound from '../assets/sounds/open.mp3';
+import bombSound from '../assets/sounds/bomb.mp3';
+import winSound from '../assets/sounds/win.mp3';
 
 export default class Game {
   constructor(createField, createCell, createPopup) {
+    this.openCellSnd = new Audio(openSound);
+    this.bombSnd = new Audio(bombSound);
+    this.winSnd = new Audio(winSound);
     this.popupRes = createPopup('result', this.restart);
     this.createField = (fieldInitialState) => createField(
       this.state.difficulty,
@@ -101,9 +107,11 @@ export default class Game {
 
   incrementOpenCells = () => {
     this.state.openCells += 1;
-    if (this.state.openCells === this.field.size ** 2 - this.state.bombQty
-      && this.state.gameInProcess) {
-      this.win();
+    if (this.state.gameInProcess) {
+      if (this.state.soundOn) this.openCellSnd.play();
+      if (this.state.openCells === this.field.size ** 2 - this.state.bombQty) {
+        this.win();
+      }
     }
   };
 
@@ -114,6 +122,7 @@ export default class Game {
   };
 
   loose = () => {
+    if (this.state.soundOn) this.bombSnd.play();
     this.stopTimer();
     this.state.history.unshift({ result: 'fail', score: this.state.movesDone, time: this.state.seconds });
     this.state.history = this.state.history.splice(0, 10);
@@ -123,6 +132,9 @@ export default class Game {
   };
 
   win = () => {
+    if (this.state.soundOn) {
+      this.winSnd.play();
+    }
     this.stopTimer();
     this.state.history.unshift({ result: 'win', score: this.state.movesDone, time: this.state.seconds });
     this.state.history = this.state.history.splice(0, 10);

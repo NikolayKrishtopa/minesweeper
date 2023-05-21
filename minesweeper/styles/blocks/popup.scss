@@ -13,7 +13,7 @@
 		align-items: center;
 		justify-content: center;
 		.popup__container{
-			margin: 0;
+			margin: 0 10px;
 		}
 	}
 	&__container{
@@ -38,6 +38,7 @@
 		@include clickable;
 		@include button(24px, 20px);
 		border: none;	
+		margin: 0 10px;
 		&_type_close{
 			position: absolute;
 			width: 40px;
@@ -48,6 +49,10 @@
 			border-radius: 50%;
 			img{
 				transform: scale(1.5);
+			}
+			@media screen and (max-width: $breakpoint-mobile-big) {
+				top: -45px;
+				right: -15px;
 			}
 			
 		}	

@@ -106,12 +106,13 @@ export default class Game {
   };
 
   incrementOpenCells = () => {
+    if (!this.state.gameInProcess) return;
     this.state.openCells += 1;
-    if (this.state.gameInProcess) {
-      if (this.state.soundOn) this.openCellSnd.play();
-      if (this.state.openCells === this.field.size ** 2 - this.state.bombQty) {
-        this.win();
-      }
+    if (this.state.openCells === this.field.size ** 2 - this.state.bombQty) {
+      this.win();
+    } else if (this.state.soundOn) {
+      this.openCellSnd.currentTime = 0;
+      this.openCellSnd.play();
     }
   };
 
@@ -122,7 +123,10 @@ export default class Game {
   };
 
   loose = () => {
-    if (this.state.soundOn) this.bombSnd.play();
+    if (this.state.soundOn) {
+      this.bombSnd.currentTime = 0;
+      this.bombSnd.play();
+    }
     this.stopTimer();
     this.state.history.unshift({ result: 'fail', score: this.state.movesDone, time: this.state.seconds });
     this.state.history = this.state.history.splice(0, 10);
@@ -133,6 +137,7 @@ export default class Game {
 
   win = () => {
     if (this.state.soundOn) {
+      this.winSnd.currentTime = 0;
       this.winSnd.play();
     }
     this.stopTimer();

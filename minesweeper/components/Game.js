@@ -62,7 +62,7 @@ export default class Game {
     Array.from(this.difficultySelector.options)
       .find((e) => e.value === this.state.difficulty).selected = true;
     Array.from(this.bombQtySelector.options)
-      .find((e) => e.value === this.state.bombQty).selected = true;
+      .find((e) => e.value.toString() === this.state.bombQty.toString()).selected = true;
   };
 
   createInfoPanel = () => {

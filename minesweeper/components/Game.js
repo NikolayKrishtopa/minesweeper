@@ -76,10 +76,10 @@ export default class Game {
     this.infoPanel.classList.add('nav-panel__info-panel');
     this.timerCanvas = document.createElement('p');
     this.timerCanvas.classList.add('nav-panel__timer');
-    this.timerCanvas.textContent = this.state.seconds;
+    this.timerCanvas.textContent = `time: ${this.state.seconds}`;
     this.score = document.createElement('p');
     this.score.classList.add('nav-panel__score');
-    this.score.textContent = this.state.movesDone;
+    this.score.textContent = `moves: ${this.state.movesDone}`;
     this.infoPanel.append(this.timerCanvas);
     this.infoPanel.append(this.score);
   };
@@ -119,7 +119,7 @@ export default class Game {
   incrementMoves = () => {
     if (!this.state.gameInProcess) this.startTimer();
     this.state.movesDone += 1;
-    this.score.textContent = this.state.movesDone;
+    this.score.textContent = `moves: ${this.state.movesDone}`;
   };
 
   loose = () => {
@@ -170,7 +170,7 @@ export default class Game {
     clearTimeout(this.timer);
     this.timer = setTimeout(() => {
       this.state.seconds += 1;
-      this.timerCanvas.textContent = this.state.seconds;
+      this.timerCanvas.textContent = `time: ${this.state.seconds}`;
       this.startTimer();
       this.cashState();
     }, 1000);
@@ -275,8 +275,8 @@ export default class Game {
     this.state.movesDone = 0;
     this.state.openCells = 0;
     this.state.seconds = 0;
-    this.timerCanvas.textContent = 0;
-    this.score.textContent = 0;
+    this.timerCanvas.textContent = `time: ${this.state.seconds}`;
+    this.score.textContent = `moves: ${this.state.movesDone}`;
   };
 
   blockClicking = () => {

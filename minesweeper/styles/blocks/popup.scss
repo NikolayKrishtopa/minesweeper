@@ -16,6 +16,7 @@
 			margin: 0 10px;
 		}
 	}
+
 	&__container{
 		margin-top: 30px;
 		margin-right: 30px;
@@ -38,7 +39,7 @@
 		@include clickable;
 		@include button(24px, 20px);
 		border: none;	
-		margin: 0 10px;
+
 		&_type_close{
 			position: absolute;
 			width: 40px;
@@ -74,5 +75,10 @@
 	}
 	&_state_open{
 	display: flex;
+	}
+		@media screen and (max-width: $breakpoint-mobile-big) {
+			&__container{
+				max-width: 200px;
+			}
 	}
 }

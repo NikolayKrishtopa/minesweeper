@@ -104,7 +104,7 @@
 	font-size: 1em;
 	line-height: 1;
 	color: black;
-	@media screen and (max-width: $breakpoint-mobile-big) {
-		font-size: 14px;
+	@media screen and (max-width: $breakpoint-mobile) {
+		font-size: 0.7em;
 	}
 }

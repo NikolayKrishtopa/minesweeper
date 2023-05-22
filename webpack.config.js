@@ -11,7 +11,7 @@ module.exports = (env) => {
       main: './minesweeper/pages/index.js',
     },
     output: {
-      path: path.resolve(__dirname, 'dist'),
+      path: path.resolve(__dirname, 'minesweeper', 'dist'),
       filename: 'main.js',
       publicPath: '',
     },
@@ -19,7 +19,7 @@ module.exports = (env) => {
     devServer:
       mode === 'development'
         ? {
-          static: path.resolve(__dirname, 'shelter', 'dist'),
+          static: path.resolve(__dirname, 'minesweeper', 'dist'),
           open: true,
           compress: true,
           port: PORT,

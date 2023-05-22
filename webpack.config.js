@@ -11,7 +11,7 @@ module.exports = (env) => {
       main: './minesweeper/pages/index.js',
     },
     output: {
-      path: path.resolve(__dirname, 'minesweeper', 'dist'),
+      path: path.resolve(__dirname, 'dist', 'minesweeper'),
       filename: 'main.js',
       publicPath: '',
     },

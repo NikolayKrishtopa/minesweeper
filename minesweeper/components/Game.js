@@ -2,7 +2,11 @@ import moonImg from '../assets/img/moon_fill.svg';
 import sunImg from '../assets/img/sun_fill.svg';
 import soundOnIcon from '../assets/img/sound_on.svg';
 import soundOffIcon from '../assets/img/sound_off.svg';
+import bombIcon from '../assets/img/fire_icon.svg';
+import flagIcon from '../assets/img/flag_icon.svg';
+import timerIcon from '../assets/img/timer_icon.svg';
 import historyIcon from '../assets/img/history.svg';
+import pointIcon from '../assets/img/points_icon.svg';
 import openSound from '../assets/sounds/open.mp3';
 import bombSound from '../assets/sounds/bomb.mp3';
 import winSound from '../assets/sounds/win.mp3';
@@ -28,6 +32,7 @@ export default class Game {
       bombQty: 10,
       movesDone: 0,
       openCells: 0,
+      flags: 0,
       theme: 'default',
       seconds: 0,
       history: [],
@@ -71,26 +76,11 @@ export default class Game {
       .find((e) => e.value.toString() === this.state.bombQty.toString()).selected = true;
   };
 
-  createInfoPanel = () => {
-    this.infoPanel = document.createElement('div');
-    this.infoPanel.classList.add('nav-panel__info-panel');
-    this.timerCanvas = document.createElement('p');
-    this.timerCanvas.classList.add('nav-panel__timer');
-    this.timerCanvas.textContent = `time: ${this.state.seconds}`;
-    this.score = document.createElement('p');
-    this.score.classList.add('nav-panel__score');
-    this.score.textContent = `moves: ${this.state.movesDone}`;
-    this.infoPanel.append(this.timerCanvas);
-    this.infoPanel.append(this.score);
-  };
-
   createNavPanel = () => {
     this.createGameModeMenu();
-    this.createInfoPanel();
     this.navPanel = document.createElement('div');
     this.navPanel.classList.add('nav-panel');
     this.navPanel.append(this.optionsPanel);
-    this.navPanel.append(this.infoPanel);
     return this.navPanel;
   };
 
@@ -119,7 +109,7 @@ export default class Game {
   incrementMoves = () => {
     if (!this.state.gameInProcess) this.startTimer();
     this.state.movesDone += 1;
-    this.score.textContent = `moves: ${this.state.movesDone}`;
+    this.score.textContent = this.state.movesDone;
   };
 
   loose = () => {
@@ -170,7 +160,7 @@ export default class Game {
     clearTimeout(this.timer);
     this.timer = setTimeout(() => {
       this.state.seconds += 1;
-      this.timerCanvas.textContent = `time: ${this.state.seconds}`;
+      this.timerCanvas.textContent = this.state.seconds;
       this.startTimer();
       this.cashState();
     }, 1000);
@@ -188,9 +178,28 @@ export default class Game {
     <header class="header">
       <div class="header__container">
         <h1 class="header__logo">Minesweeper</h1>
+        
+        <div class="header__params">      
+          <div class="header__param">      
+            <img src="${timerIcon}" alt="time counter"/>
+            <p class="header__param-text" id="timeCounter"></p>
+          </div>
+          <div class="header__param">      
+            <img src="${pointIcon}" alt="moves counter"/>
+            <p class="header__param-text" id="movesCounter"></p>
+          </div>
+          <div class="header__param">      
+            <img src="${flagIcon}" alt="flags counter"/>
+            <p class="header__param-text" id="flagCounter"></p>
+          </div>
+          <div class="header__param">      
+            <img src="${bombIcon}" alt="bombs counter"/>
+            <p class="header__param-text" id="bombCounter"></p>
+          </div>
+        </div>
         <div class="header__nav">      
           <button class="header__btn" id="statsBtn">
-            <img src="#" alt="statistic"/>
+            <img src="${historyIcon}" alt="statistic"/>
           </button>
           <button class="header__btn" id="soundBtn">
             <img src="#" alt="sound button"/>
@@ -204,10 +213,20 @@ export default class Game {
     `;
     this.root.prepend(header);
     this.themeBtn = this.root.querySelector('#themeBtn');
-    this.darkThemeBtn = this.root.querySelector('#darkThemeBtn');
     this.statsBtn = this.root.querySelector('button');
     this.soundBtn = this.root.querySelector('#soundBtn');
-    this.statsBtn.querySelector('img').src = historyIcon;
+    this.timerCanvas = document.querySelector('#timeCounter');
+    this.score = document.querySelector('#movesCounter');
+    this.timerCanvas.textContent = this.state.seconds;
+    this.score.textContent = this.state.movesDone;
+    this.flagCounter = document.querySelector('#flagCounter');
+    this.remainingBombCounter = document.querySelector('#bombCounter');
+  };
+
+  renderFlags = () => {
+    this.flagCounter.textContent = this.state.flags;
+    const diff = this.state.bombQty - this.state.flags;
+    this.remainingBombCounter.textContent = diff < 0 ? 0 : diff;
   };
 
   createLayoutStructure = () => {
@@ -275,8 +294,8 @@ export default class Game {
     this.state.movesDone = 0;
     this.state.openCells = 0;
     this.state.seconds = 0;
-    this.timerCanvas.textContent = `time: ${this.state.seconds}`;
-    this.score.textContent = `moves: ${this.state.movesDone}`;
+    this.timerCanvas.textContent = this.state.seconds;
+    this.score.textContent = this.state.movesDone;
   };
 
   blockClicking = () => {
@@ -302,6 +321,7 @@ export default class Game {
     this.createLayoutStructure();
     this.setListeners();
     this.renderTheme();
+    this.renderFlags();
     this.renderSoundBtn();
     if (this.state.gameInProcess) this.startTimer();
   };

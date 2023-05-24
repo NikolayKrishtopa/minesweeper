@@ -8,6 +8,8 @@ export default class Field {
     incrementOpenCells,
     cashState,
     initialState,
+    handleFlag,
+    getRemainigFlags,
   ) {
     this.createCell = (coord, cellInitialState) => (
       createCell(
@@ -19,6 +21,8 @@ export default class Field {
         incrementOpenCells,
         cashState,
         cellInitialState,
+        handleFlag,
+        getRemainigFlags,
       )
     );
     this.state = initialState || {

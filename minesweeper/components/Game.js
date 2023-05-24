@@ -10,9 +10,11 @@ import pointIcon from '../assets/img/points_icon.svg';
 import openSound from '../assets/sounds/open.mp3';
 import bombSound from '../assets/sounds/bomb.mp3';
 import winSound from '../assets/sounds/win.mp3';
+import flagSound from '../assets/sounds/deactivate.mp3';
 
 export default class Game {
   constructor(createField, createCell, createPopup) {
+    this.flagSound = new Audio(flagSound);
     this.openCellSnd = new Audio(openSound);
     this.bombSnd = new Audio(bombSound);
     this.winSnd = new Audio(winSound);
@@ -26,6 +28,8 @@ export default class Game {
       this.incrementOpenCells,
       this.cashState,
       fieldInitialState,
+      this.handleFlag,
+      this.getRemainigFlags,
     );
     this.root = document.querySelector('.root');
     this.state = JSON.parse(localStorage.getItem('minesweeperState')) || {
@@ -296,6 +300,8 @@ export default class Game {
     this.state.seconds = 0;
     this.timerCanvas.textContent = this.state.seconds;
     this.score.textContent = this.state.movesDone;
+    this.state.flags = 0;
+    this.renderFlags();
   };
 
   blockClicking = () => {
@@ -324,6 +330,33 @@ export default class Game {
     this.renderFlags();
     this.renderSoundBtn();
     if (this.state.gameInProcess) this.startTimer();
+  };
+
+  getRemainigFlags = () => this.state.bombQty - this.state.flags;
+
+  handleFlag = (mode, perClick) => {
+    switch (mode) {
+      case 'set':
+        if (this.state.bombQty - this.state.flags !== 0) {
+          this.state.flags += 1;
+          this.renderFlags();
+          if (this.state.soundOn && perClick) {
+            this.flagSound.currentTime = 0;
+            this.flagSound.play();
+          }
+        }
+        break;
+      case 'unset':
+        this.state.flags -= 1;
+        this.renderFlags();
+        if (this.state.soundOn && perClick) {
+          this.flagSound.currentTime = 0;
+          this.flagSound.play();
+        }
+        break;
+      default:
+        break;
+    }
   };
 
   cashState = () => {

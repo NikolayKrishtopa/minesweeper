@@ -8,6 +8,8 @@ export default class Cell {
     incrementOpenCells,
     cashState,
     initialState,
+    handleFlag,
+    getRemainigFlags,
   ) {
     this.state = initialState || {
       isClosed: true,
@@ -22,6 +24,8 @@ export default class Cell {
     this.incrementMove = incrementMove;
     this.coordinates = coordinates;
     this.generateBombs = generateBombs;
+    this.handleFlag = handleFlag;
+    this.getRemainigFlags = getRemainigFlags;
   }
 
   createLayout = () => {
@@ -47,6 +51,7 @@ export default class Cell {
   };
 
   open = () => {
+    if (this.state.isFlagged) this.flag();
     this.state.isClosed = false;
     if (!this.state.isBomb) {
       this.incrementOpenCells();
@@ -66,8 +71,6 @@ export default class Cell {
       this.incrementMove();
     }
     this.open();
-    this.isFlagged = false;
-    this.renderState();
     this.element.removeEventListener('click', this.handleMove);
     this.element.removeEventListener('contextmenu', this.flag);
     this.cashState();
@@ -95,18 +98,27 @@ export default class Cell {
   };
 
   flag = (e) => {
-    e.preventDefault();
-    if (this.element.classList.contains('field__cell_state_flag')) {
-      this.element.classList.remove('field__cell_state_flag');
-    } else {
-      this.element.classList.add('field__cell_state_flag');
+    if (e) e.preventDefault();
+    if (this.state.isFlagged) {
+      this.state.isFlagged = false;
+      this.renderState();
+      this.handleFlag('unset', !!e);
+      this.element.addEventListener('click', this.handleMove);
+      this.cashState();
+    } else if (this.getRemainigFlags() > 0) {
+      this.state.isFlagged = true;
+      this.renderState();
+      this.handleFlag('set', !!e);
+      this.element.removeEventListener('click', this.handleMove);
+      this.cashState();
     }
   };
 
   setListeners = () => {
-    this.element.addEventListener('click', () => {
-      this.handleMove();
-    });
+    this.element.addEventListener(
+      'click',
+      this.handleMove,
+    );
     this.element.addEventListener('contextmenu', this.flag);
   };
 }

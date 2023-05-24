@@ -14,6 +14,8 @@ const createField = (
   incrementOpenCells,
   cashState,
   iniitialState,
+  handleFlag,
+  getRemainigFlags,
 ) => (
   new Field(
     difficulty,
@@ -24,6 +26,8 @@ const createField = (
     incrementOpenCells,
     cashState,
     iniitialState,
+    handleFlag,
+    getRemainigFlags,
   )
 );
 
@@ -36,6 +40,8 @@ const createCell = (
   incrementOpenCells,
   cashState,
   initialState,
+  handleFlag,
+  getRemainigFlags,
 ) => (
   new Cell(
     coordinates,
@@ -46,6 +52,8 @@ const createCell = (
     incrementOpenCells,
     cashState,
     initialState,
+    handleFlag,
+    getRemainigFlags,
   ));
 
 const createPopup = (type, args) => (

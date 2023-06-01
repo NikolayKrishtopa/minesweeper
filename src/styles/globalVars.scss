@@ -1,0 +1,45 @@
+$white: #fff;
+
+$font-content: 'Arial', serif;
+
+$max-width: 1200px;
+
+$field-gap: 6px;
+
+$breakpoint-extra-big: 1100px;
+$breakpoint-extra-m: 767px;
+$breakpoint-tablet: 800px;
+$breakpoint-mobile-big: 600px;
+$breakpoint-mobile: 480px;
+
+
+$transition-duration: 0.5s;
+
+@mixin clickable {
+  cursor: pointer;
+  transition: opacity $transition-duration ease;
+  &:hover {
+    opacity: 50%;
+    @media screen and (hover: none) {
+      opacity: 100%;
+    }
+  }
+}
+
+@mixin button($font-size, $padding){
+  @include clickable;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-family: $font-content;
+	font-size: $font-size;
+	padding: $padding;
+  line-height: 1;
+  border: 1px solid var(--nav-elem-border);
+	background-color: var(--button-background);
+  color: var(--text-color);
+    @media screen and (max-width: $breakpoint-mobile-big) {
+      font-size: calc($font-size * 0.8);
+    }
+}

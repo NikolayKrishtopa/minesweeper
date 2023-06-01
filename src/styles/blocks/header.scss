@@ -1,0 +1,81 @@
+.header {
+  width: 100%;
+  background-color: var(--header-backgound);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.header__nav {
+  display: flex;
+  gap: 40px;
+  @media screen and (max-width: $breakpoint-tablet) {
+    gap: 10px;
+  }
+  @media screen and (max-width: $breakpoint-mobile-big) {
+    gap: 5px;
+  }
+}
+.header__logo {
+  font-family: $font-content;
+  font-size: 32px;
+  color: yellow;
+  @media screen and (max-width: $breakpoint-mobile-big) {
+    font-size: 24px;
+  }
+  @media screen and (max-width: $breakpoint-mobile) {
+    display: none;
+  }
+}
+.header__theme-btns-wrapper {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.header__container {
+  padding: 20px;
+  width: 100%;
+  max-width: $max-width;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header__btn {
+  @include clickable;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  border-radius: 50%;
+  justify-content: center;
+  &_active {
+    border: 1px solid yellow;
+  }
+}
+.header__params {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  @media screen and (max-width: $breakpoint-tablet) {
+    gap: 10px;
+  }
+  @media screen and (max-width: $breakpoint-mobile-big) {
+    gap: 5px;
+  }
+}
+.header__param {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  @media screen and (max-width: $breakpoint-mobile-big) {
+    gap: 0px;
+  }
+}
+.header__param-text {
+  font-size: 18px;
+  line-height: 1;
+  font-family: $font-content;
+  color: yellow;
+  padding: 0;
+  margin: 0;
+}

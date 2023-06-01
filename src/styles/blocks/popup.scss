@@ -1,0 +1,96 @@
+.popup{
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background-color: rgba(0,0,0,0.5);
+	display: none;
+	justify-content: flex-end;
+	align-items: flex-start;
+	z-index: 1;
+	&_type_stats{
+		align-items: center;
+		justify-content: center;
+		.popup__container{
+			margin: 0 10px;
+		}
+	}
+
+	&__container{
+		margin-top: 30px;
+		margin-right: 30px;
+		background-color: $white;
+		width: 100%;
+		max-width: 400px;
+		padding: 20px;
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+		border-radius: 10px;
+		position: relative;
+		@media screen and (max-width: $breakpoint-mobile-big) {
+			max-width: 250px;
+		}
+		@media screen and (max-width: $breakpoint-mobile) {
+			margin: 15px;
+			// max-width: unset;
+			// align-self: center;
+			// justify-self: center;
+		}
+	}
+	&__text{
+		font-family: $font-content;
+		font-size: 24px;
+		line-height: 1;
+			@media screen and (max-width: $breakpoint-mobile-big) {
+				font-size: 18px;
+			}
+	}
+	&__button{
+		@include clickable;
+		@include button(24px, 20px);
+		border: none;	
+		@media screen and (max-width: $breakpoint-mobile-big) {
+				padding: 10px;
+				font-size: 18px;
+			}
+		&_type_close{
+			position: absolute;
+			width: 40px;
+			height: 40px;
+			right: -40px;
+			top: -40px;
+			background-color: transparent;
+			border-radius: 50%;
+			img{
+				transform: scale(1.5);
+			}
+			@media screen and (max-width: $breakpoint-mobile-big) {
+				top: -45px;
+				right: -15px;
+			}
+		}	
+	}
+	&__list{
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		padding: 0;
+		margin: 0;
+	}
+	&__list-item{
+		font-family: $font-content;
+		font-size: 18px;
+		line-height: 1;
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		@media screen and (max-width: $breakpoint-mobile-big) {
+			font-size: 14px;
+		}
+	}
+	&_state_open{
+	display: flex;
+	}
+}

@@ -1,0 +1,51 @@
+{
+  "name": "nikolaykrishtopa-jsfe2023q1",
+  "version": "1.0.0",
+  "description": "[Link to the page deploy](https://rolling-scopes-school.github.io/nikolaykrishtopa-JSFE2023Q1/shelter/)",
+  "main": "index.js",
+  "scripts": {
+    "buildDev": "webpack --env mode=development",
+    "buildProd": "webpack --env mode=production",
+    "dev": "webpack serve --env port=8080",
+    "predeploy": "npm run buildProd",
+    "deploy": "gh-pages -d dist",
+    "lint": "eslint .",
+    "lintFix": "eslint . --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rolling-scopes-school/nikolaykrishtopa-JSFE2023Q1.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rolling-scopes-school/nikolaykrishtopa-JSFE2023Q1/issues"
+  },
+  "homepage": "https://github.com/rolling-scopes-school/nikolaykrishtopa-JSFE2023Q1#readme",
+  "devDependencies": {
+    "@babel/core": "^7.21.4",
+    "@babel/preset-env": "^7.21.4",
+    "autoprefixer": "^10.4.14",
+    "babel-loader": "^9.1.2",
+    "clean-webpack-plugin": "^4.0.0",
+    "css-loader": "^6.7.3",
+    "gh-pages": "^5.0.0",
+    "html-loader": "^4.2.0",
+    "html-webpack-plugin": "^5.5.0",
+    "mini-css-extract-plugin": "^2.7.5",
+    "postcss-loader": "^7.1.0",
+    "sass": "^1.60.0",
+    "sass-loader": "^13.2.2",
+    "style-loader": "^3.3.2",
+    "webpack": "^5.77.0",
+    "webpack-cli": "^5.0.1",
+    "webpack-dev-server": "^4.13.1",
+    "eslint": "^8.39.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.27.5"
+  },
+  "dependencies": {
+    "node-sass": "^8.0.0"
+  }
+}

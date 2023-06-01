@@ -1,0 +1,118 @@
+.field {
+  padding: $field-gap;
+  display: flex;
+  width: 100%;
+  max-width: 700px;
+  flex-direction: column;
+  gap: $field-gap;
+  background-color: var(--background-field);
+  &_size_15 {
+    gap: calc($field-gap / 2);
+    padding: calc($field-gap / 2);
+    .field__row {
+      grid-template-columns: repeat(15, 1fr);
+      gap: calc($field-gap / 2);
+    }
+  }
+  &_size_25 {
+    gap: calc($field-gap / 3);
+    padding: calc($field-gap / 3);
+    .field__row {
+      grid-template-columns: repeat(25, 1fr);
+      gap: calc($field-gap / 3);
+    }
+  }
+}
+
+.field__row {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: $field-gap;
+}
+
+.field__cell {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  gap: $field-gap;
+  background-color: var(--background-cell);
+  position: relative;
+  pointer-events: none;
+}
+
+.field__cell_danger_1 {
+  background-color: var(--danger_1);
+}
+
+.field__cell_danger_2 {
+  background-color: var(--danger_2);
+}
+
+.field__cell_danger_3 {
+  background-color: var(--danger_3);
+}
+.field__cell_danger_4 {
+  background-color: var(--danger_4);
+}
+
+.field__cell_danger_5 {
+  background-color: var(--danger_5);
+}
+.field__cell_danger_6 {
+  background-color: var(--danger_6);
+}
+
+.field__cell_danger_7 {
+  background-color: var(--danger_7);
+}
+.field__cell_danger_8 {
+  background-color: var(--danger_8);
+}
+
+.field__cell_state_locked {
+  @include clickable;
+  pointer-events: all;
+  &::after {
+    position: absolute;
+    content: '';
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: var(--background-cell-closed);
+    // opacity: 70%;
+  }
+}
+
+.field__cell_state_bomb {
+  background-image: url('~/src/assets/img/bomb.png');
+  background-size: contain;
+  background-position: center;
+}
+
+.field__cell_state_flag {
+  &::after {
+    position: absolute;
+    content: '';
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-image: url('~/src/assets/img/flag.png');
+    background-size: contain;
+    background-position: center;
+  }
+}
+
+.field__text {
+  font-family: $font-content;
+  font-size: 1em;
+  line-height: 1;
+  color: black;
+  @media screen and (max-width: $breakpoint-mobile) {
+    font-size: 0.7em;
+  }
+}

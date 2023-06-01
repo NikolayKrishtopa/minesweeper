@@ -8,10 +8,10 @@ module.exports = (env) => {
   const PORT = env.port || 8080;
   return {
     entry: {
-      main: './minesweeper/pages/index.js',
+      main: './src/pages/index.js',
     },
     output: {
-      path: path.resolve(__dirname, 'dist', 'minesweeper'),
+      path: path.resolve(__dirname, 'dist'),
       filename: 'main.js',
       publicPath: '',
     },
@@ -19,7 +19,7 @@ module.exports = (env) => {
     devServer:
       mode === 'development'
         ? {
-          static: path.resolve(__dirname, 'minesweeper', 'dist'),
+          static: path.resolve(__dirname, 'dist'),
           open: true,
           compress: true,
           port: PORT,
@@ -65,7 +65,7 @@ module.exports = (env) => {
     },
     plugins: [
       new HtmlWebpackPlugin({
-        template: './minesweeper/index.html',
+        template: './src/index.html',
       }),
       new CleanWebpackPlugin(),
       new MiniCssExtractPlugin(),
